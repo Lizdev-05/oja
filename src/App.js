@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Header from "./components/header/Header";
-import Footer from "./components/footer/Footer";
 // Pages
 import { Home, Contact, Cart, Admin } from "./pages";
 
+// omponent
+import { Header, Footer } from "./components";
 const App = () => {
   return (
     <>
