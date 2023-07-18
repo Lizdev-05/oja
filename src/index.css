@@ -17,6 +17,8 @@
   --color-primary: #007bff;
   --color-success: #28a745;
   --color-danger: orangered;
+  --color-lemon: #2fa600;
+  /* #adf802 */
 }
 
 * {
@@ -333,6 +335,9 @@ p {
   background: var(--color-grey);
 }
 
+.--bg-lemon {
+  background: var(--color-lemon);
+}
 .--form-control {
   font-size: 1.6rem;
   font-weight: 300;
