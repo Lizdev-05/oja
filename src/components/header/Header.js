@@ -12,6 +12,15 @@ const logo = (
     </Link>
   </div>
 );
+
+const cart = (
+  <span className={style.cart}>
+    <Link to="/cart">
+      <FaShoppingCart size={20} />
+      <p>0</p>
+    </Link>
+  </span>
+);
 const Header = () => {
   return (
     <header>
@@ -34,11 +43,7 @@ const Header = () => {
               <Link to="/order-history">Order</Link>
             </span>
 
-            <span className={style.cart}>
-              <Link to="/cart">
-                <FaShoppingCart size={20} />
-              </Link>
-            </span>
+            {cart}
           </div>
         </nav>
       </div>
