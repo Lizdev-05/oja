@@ -24,6 +24,7 @@ const cart = (
     </NavLink>
   </span>
 );
+
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
 
