@@ -1,7 +1,7 @@
 import { useState } from "react";
 import style from "./Header.module.scss";
 import { Link } from "react-router-dom";
-import { FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart, FaTimes } from "react-icons/fa";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 
 const logo = (
@@ -50,7 +50,11 @@ const Header = () => {
             }
             onClick={hideMenu}
           ></div>
-          <ul>
+          <ul onClick={hideMenu}>
+            <li className={style["logo-mobile"]}>
+              {logo}
+              <FaTimes size={22} onClick={hideMenu} />
+            </li>
             <li>
               <Link to="/">Home</Link>
             </li>
@@ -59,7 +63,7 @@ const Header = () => {
               <Link to="/contact">Contact</Link>
             </li>
           </ul>
-          <div className={style["header-right"]}>
+          <div className={style["header-right"]} onClick={hideMenu}>
             <span className={style.links}>
               <Link to="/login">Login</Link>
               <Link to="/register">Register</Link>
