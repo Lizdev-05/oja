@@ -2,7 +2,7 @@ import { useState } from "react";
 import style from "./Header.module.scss";
 import { Link } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
-import { HiOutLineMenuAlt3 } from "react-icons/hi";
+import { HiOutlineMenuAlt3 } from "react-icons/hi";
 
 const logo = (
   <div className={style.logo}>
@@ -17,6 +17,7 @@ const logo = (
 const cart = (
   <span className={style.cart}>
     <Link to="/cart">
+      Cart
       <FaShoppingCart size={20} />
       <p>0</p>
     </Link>
@@ -29,11 +30,26 @@ const Header = () => {
     setShowMenu(!showMenu);
   };
 
+  const hideMenu = () => {
+    setShowMenu(false);
+  };
+
   return (
     <header>
       <div className={style.header}>
         {logo}
-        <nav>
+        <nav
+          className={showMenu ? `${style["show-nav"]}` : `${style["hide-nav"]}`}
+        >
+          {/* // wrapper for shadow */}
+          <div
+            className={
+              showMenu
+                ? `${style["nav-wrapper"]} ${style["show-nav-wrapper"]}`
+                : `${style["nav-wrapper"]}`
+            }
+            onClick={hideMenu}
+          ></div>
           <ul>
             <li>
               <Link to="/">Home</Link>
@@ -55,7 +71,7 @@ const Header = () => {
         </nav>
         <div className={style["menu-icon"]}>
           {cart}
-          <HiOutLineMenuAlt3 />
+          <HiOutlineMenuAlt3 size={28} onClick={toggleMenu} />
         </div>
       </div>
     </header>
