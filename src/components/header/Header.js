@@ -14,13 +14,14 @@ const logo = (
   </div>
 );
 
+const activeLink = ({ isActive }) => (isActive ? `${style.active}` : "");
 const cart = (
   <span className={style.cart}>
-    <Link to="/cart">
+    <NavLink to="/cart" className={activeLink}>
       Cart
       <FaShoppingCart size={20} />
       <p>0</p>
-    </Link>
+    </NavLink>
   </span>
 );
 const Header = () => {
@@ -56,51 +57,26 @@ const Header = () => {
               <FaTimes size={22} onClick={hideMenu} />
             </li>
             <li>
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  isActive ? `${style.active}` : ""
-                }
-              >
+              <NavLink to="/" className={activeLink}>
                 Home
               </NavLink>
             </li>
             <li>
               {" "}
-              <NavLink
-                to="/contact"
-                className={({ isActive }) =>
-                  isActive ? `${style.active}` : ""
-                }
-              >
+              <NavLink to="/contact" className={activeLink}>
                 Contact
               </NavLink>
             </li>
           </ul>
           <div className={style["header-right"]} onClick={hideMenu}>
             <span className={style.links}>
-              <NavLink
-                to="/login"
-                className={({ isActive }) =>
-                  isActive ? `${style.active}` : ""
-                }
-              >
+              <NavLink to="/login" className={activeLink}>
                 Login
               </NavLink>
-              <NavLink
-                to="/register"
-                className={({ isActive }) =>
-                  isActive ? `${style.active}` : ""
-                }
-              >
+              <NavLink to="/register" className={activeLink}>
                 Register
               </NavLink>
-              <NavLink
-                to="/order-history"
-                className={({ isActive }) =>
-                  isActive ? `${style.active}` : ""
-                }
-              >
+              <NavLink to="/order-history" className={activeLink}>
                 Order
               </NavLink>
             </span>
