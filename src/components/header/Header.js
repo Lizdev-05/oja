@@ -1,7 +1,8 @@
-import React from "react";
+import { useState } from "react";
 import style from "./Header.module.scss";
 import { Link } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
+import { HiOutLineMenuAlt3 } from "react-icons/hi";
 
 const logo = (
   <div className={style.logo}>
@@ -22,6 +23,12 @@ const cart = (
   </span>
 );
 const Header = () => {
+  const [showMenu, setShowMenu] = useState(false);
+
+  const toggleMenu = () => {
+    setShowMenu(!showMenu);
+  };
+
   return (
     <header>
       <div className={style.header}>
@@ -46,6 +53,10 @@ const Header = () => {
             {cart}
           </div>
         </nav>
+        <div className={style["menu-icon"]}>
+          {cart}
+          <HiOutLineMenuAlt3 />
+        </div>
       </div>
     </header>
   );
