@@ -1,6 +1,6 @@
 import { useState } from "react";
 import style from "./Header.module.scss";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { FaShoppingCart, FaTimes } from "react-icons/fa";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
 
@@ -56,18 +56,53 @@ const Header = () => {
               <FaTimes size={22} onClick={hideMenu} />
             </li>
             <li>
-              <Link to="/">Home</Link>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive ? `${style.active}` : ""
+                }
+              >
+                Home
+              </NavLink>
             </li>
             <li>
               {" "}
-              <Link to="/contact">Contact</Link>
+              <NavLink
+                to="/contact"
+                className={({ isActive }) =>
+                  isActive ? `${style.active}` : ""
+                }
+              >
+                Contact
+              </NavLink>
             </li>
           </ul>
           <div className={style["header-right"]} onClick={hideMenu}>
             <span className={style.links}>
-              <Link to="/login">Login</Link>
-              <Link to="/register">Register</Link>
-              <Link to="/order-history">Order</Link>
+              <NavLink
+                to="/login"
+                className={({ isActive }) =>
+                  isActive ? `${style.active}` : ""
+                }
+              >
+                Login
+              </NavLink>
+              <NavLink
+                to="/register"
+                className={({ isActive }) =>
+                  isActive ? `${style.active}` : ""
+                }
+              >
+                Register
+              </NavLink>
+              <NavLink
+                to="/order-history"
+                className={({ isActive }) =>
+                  isActive ? `${style.active}` : ""
+                }
+              >
+                Order
+              </NavLink>
             </span>
 
             {cart}
