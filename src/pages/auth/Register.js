@@ -11,6 +11,8 @@ const Register = () => {
 
   const registerUser = (e) => {
     e.preventDefault();
+
+    // console.log("not showing");
     console.log(email, password, confirmPassword);
   };
 
@@ -41,7 +43,7 @@ const Register = () => {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
-            <button className="--btn --btn-primary --btn-block">
+            <button type="submit" className="--btn --btn-primary --btn-block">
               Register
             </button>
           </form>
