@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import registerImg from "../../assets/register.png";
 import Card from "../../components/card/Card";
 import style from "./Auth.module.scss";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -12,52 +14,59 @@ const Register = () => {
   const registerUser = (e) => {
     e.preventDefault();
 
-    // console.log("not showing");
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
     console.log(email, password, confirmPassword);
   };
 
   return (
-    <section className={`container ${style.auth}`}>
-      <Card>
-        <div className={style.form}>
-          <h2>Login</h2>
-          <form onSubmit={registerUser}>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Enter password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Confirm password"
-              required
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-            <button type="submit" className="--btn --btn-primary --btn-block">
-              Register
-            </button>
-          </form>
+    <>
+      <ToastContainer />
+      <section className={`container ${style.auth}`}>
+        <Card>
+          <div className={style.form}>
+            <h2>Login</h2>
+            <form onSubmit={registerUser}>
+              <input
+                type="email"
+                placeholder="Enter your email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <input
+                type="password"
+                placeholder="Enter password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <input
+                type="password"
+                placeholder="Confirm password"
+                required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              <button type="submit" className="--btn --btn-primary --btn-block">
+                Register
+              </button>
+            </form>
 
-          <span className={style.register}>
-            <p>Already have an account?</p>
-            <Link to="/login">Login</Link>
-          </span>
+            <span className={style.register}>
+              <p>Already have an account?</p>
+              <Link to="/login">Login</Link>
+            </span>
+          </div>
+        </Card>
+        <div className={style.img}>
+          <img src={registerImg} alt="Register Description" width="400" />
         </div>
-      </Card>
-      <div className={style.img}>
-        <img src={registerImg} alt="Register Description" width="400" />
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 
