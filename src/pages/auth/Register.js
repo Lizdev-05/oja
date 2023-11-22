@@ -32,6 +32,7 @@ const Register = () => {
         // Signed up
         const user = userCredential.user;
         console.log(user);
+
         // once the user has signed up, set the loading state to false
         setIsLoading(false);
         toast.success("User registered successfully");
