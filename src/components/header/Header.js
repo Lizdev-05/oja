@@ -3,6 +3,9 @@ import style from "./Header.module.scss";
 import { Link, NavLink } from "react-router-dom";
 import { FaShoppingCart, FaTimes } from "react-icons/fa";
 import { HiOutlineMenuAlt3 } from "react-icons/hi";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase/config";
+import { toast } from "react-toastify";
 
 const logo = (
   <div className={style.logo}>
@@ -36,6 +39,15 @@ const Header = () => {
     setShowMenu(false);
   };
 
+  const logOut = () => {
+    signOut(auth)
+      .then(() => {
+        toast.success("Logout successful...");
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  };
   return (
     <header>
       <div className={style.header}>
@@ -79,6 +91,9 @@ const Header = () => {
               </NavLink>
               <NavLink to="/order-history" className={activeLink}>
                 Order
+              </NavLink>
+              <NavLink to="/" onClick={logOut}>
+                Logout
               </NavLink>
             </span>
 
