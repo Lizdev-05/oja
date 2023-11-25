@@ -10,6 +10,7 @@ import { auth } from "../../firebase/config";
 import Loader from "../../components/loader/Loader";
 
 const Register = () => {
+  const [fullName, setFullName] = useState(""); // [state, setState
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -59,6 +60,14 @@ const Register = () => {
           <div className={style.form}>
             <h2>Login</h2>
             <form onSubmit={registerUser}>
+              <input
+                type="text"
+                placeholder="Enter your full name"
+                required
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+              />
+
               <input
                 type="email"
                 placeholder="Enter your email"
