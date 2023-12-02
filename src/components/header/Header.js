@@ -6,6 +6,8 @@ import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../../firebase/config";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { SET_ACTIVE_USER } from "../../redux/slice/authSlice";
 
 const logo = (
   <div className={style.logo}>
@@ -31,6 +33,7 @@ const cart = (
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [displayUsername, setDisplayUsername] = useState("");
+  const dispatch = useDispatch();
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -45,6 +48,15 @@ const Header = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setDisplayUsername(user.displayName);
+
+        // dispatch user to redux store
+        dispatch(
+          SET_ACTIVE_USER({
+            id: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+          })
+        );
       } else {
         setDisplayUsername("");
       }
