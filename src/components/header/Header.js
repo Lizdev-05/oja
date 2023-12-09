@@ -49,6 +49,14 @@ const Header = () => {
       if (user) {
         setDisplayUsername(user.displayName);
 
+        if (user.displayName == null) {
+          const userDisplayName = user.email.slice(0, -10);
+          console.log(userDisplayName);
+          const capitalizeUserDisplayName =
+            userDisplayName.charAt(0).toUpperCase() + userDisplayName.slice(1);
+          console.log(capitalizeUserDisplayName);
+        }
+        setDisplayUsername(user.displayName);
         // dispatch user to redux store
         dispatch(
           SET_ACTIVE_USER({
