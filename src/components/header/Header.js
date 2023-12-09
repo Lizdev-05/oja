@@ -50,19 +50,23 @@ const Header = () => {
         setDisplayUsername(user.displayName);
 
         if (user.displayName == null) {
-          const userDisplayName = user.email.slice(0, -10);
+          // const userDisplayName = user.email.slice(0, -10);
+          const userDisplayName = user.email.split("@")[0];
           console.log(userDisplayName);
           const capitalizeUserDisplayName =
             userDisplayName.charAt(0).toUpperCase() + userDisplayName.slice(1);
           console.log(capitalizeUserDisplayName);
+          setDisplayUsername(capitalizeUserDisplayName);
+        } else {
+          setDisplayUsername(user.displayName);
         }
-        setDisplayUsername(user.displayName);
+
         // dispatch user to redux store
         dispatch(
           SET_ACTIVE_USER({
             id: user.uid,
             email: user.email,
-            displayName: user.displayName,
+            displayName: user.displayName ? user.displayName : displayUsername,
           })
         );
       } else {
