@@ -7,7 +7,10 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../../firebase/config";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { SET_ACTIVE_USER } from "../../redux/slice/authSlice";
+import {
+  REMOVE_ACTIVE_USER,
+  SET_ACTIVE_USER,
+} from "../../redux/slice/authSlice";
 
 const logo = (
   <div className={style.logo}>
@@ -52,10 +55,10 @@ const Header = () => {
         if (user.displayName == null) {
           // const userDisplayName = user.email.slice(0, -10);
           const userDisplayName = user.email.split("@")[0];
-          console.log(userDisplayName);
+
           const capitalizeUserDisplayName =
             userDisplayName.charAt(0).toUpperCase() + userDisplayName.slice(1);
-          console.log(capitalizeUserDisplayName);
+
           setDisplayUsername(capitalizeUserDisplayName);
         } else {
           setDisplayUsername(user.displayName);
@@ -71,9 +74,10 @@ const Header = () => {
         );
       } else {
         setDisplayUsername("");
+        dispatch(REMOVE_ACTIVE_USER());
       }
     });
-  }, []);
+  }, [dispatch, displayUsername]);
 
   const logOut = () => {
     signOut(auth)
