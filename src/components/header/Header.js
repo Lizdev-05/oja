@@ -11,6 +11,7 @@ import {
   REMOVE_ACTIVE_USER,
   SET_ACTIVE_USER,
 } from "../../redux/slice/authSlice";
+import ShowOnLogIn, { ShowOnLogOut } from "../hideLinks/HiddenLinks";
 
 const logo = (
   <div className={style.logo}>
@@ -123,24 +124,24 @@ const Header = () => {
           </ul>
           <div className={style["header-right"]} onClick={hideMenu}>
             <span className={style.links}>
-              <NavLink to="/login" className={activeLink}>
-                Login
-              </NavLink>
+              <ShowOnLogOut>
+                <NavLink to="/login" className={activeLink}>
+                  Login
+                </NavLink>
+              </ShowOnLogOut>
+              <ShowOnLogIn>
+                <a href="#Home" style={{ color: "#ff4500" }}>
+                  <FaUserCircle size={16} />
+                  Hello, {displayUsername}
+                </a>
 
-              <a href="#">
-                <FaUserCircle size={16} />
-                Hello, {displayUsername}
-              </a>
-
-              <NavLink to="/register" className={activeLink}>
-                Register
-              </NavLink>
-              <NavLink to="/order-history" className={activeLink}>
-                Order
-              </NavLink>
-              <NavLink to="/" onClick={logOut}>
-                Logout
-              </NavLink>
+                <NavLink to="/order-history" className={activeLink}>
+                  Order
+                </NavLink>
+                <NavLink to="/" onClick={logOut}>
+                  Logout
+                </NavLink>
+              </ShowOnLogIn>
             </span>
 
             {cart}
