@@ -11,6 +11,10 @@ const Slider = () => {
     setCurrentSlide(currentSlide === slideLenght - 1 ? 0 : currentSlide + 1);
   };
 
+  const prevSlide = () => {
+    setCurrentSlide(currentSlide === 0 ? slideLenght - 1 : currentSlide - 1);
+  };
+
   return (
     <div className="slider">
       <AiOutlineArrowLeft className="arrow prev" onClick={prevSlide} />
