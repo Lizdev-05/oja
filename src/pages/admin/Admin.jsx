@@ -6,7 +6,7 @@ import { Route, Routes } from "react-router-dom";
 
 import ViewProducts from "../../components/admin/viewProducts/ViewProducts";
 import Orders from "../../components/admin/orders/Orders";
-import AddProducts from "../../components/admin/addProducts/AddProducts";
+import AddProduct from "../../components/admin/addProduct/AddProduct";
 
 const Admin = () => {
   return (
@@ -17,9 +17,10 @@ const Admin = () => {
       <div className={styles.content}>
         <Routes>
           <Route path="home" element={<Home />} />
-          <Route path="/addProducts" element={<AddProducts />} />
-          <Route path="/viewProducts" element={<ViewProducts />} />
-          <Route path="/orders" element={<Orders />} />
+          <Route path="/app-Products" element={<ViewProducts />} />
+          <Route path="/add-Product" element={<AddProduct />} />
+
+          <Route path="/view-orders" element={<Orders />} />
         </Routes>
       </div>
     </div>

@@ -12,7 +12,9 @@ import {
   SET_ACTIVE_USER,
 } from "../../redux/slice/authSlice";
 import ShowOnLogIn, { ShowOnLogOut } from "../hideLinks/HiddenLinks";
-import AdminOnlyRoute from "../adminOnlyRoute/AdminOnlyRoute";
+import AdminOnlyRoute, {
+  AdminOnlyLink,
+} from "../adminOnlyRoute/AdminOnlyRoute";
 
 const logo = (
   <div className={style.logo}>
@@ -113,9 +115,11 @@ const Header = () => {
               <FaTimes size={22} onClick={hideMenu} />
             </li>
             <li>
-              <AdminOnlyRoute>
-                <button className="--btn --btn-secondary">Admin</button>
-              </AdminOnlyRoute>
+              <AdminOnlyLink>
+                <Link to="/admin/home">
+                  <button className="--btn --btn-secondary">Admin</button>
+                </Link>
+              </AdminOnlyLink>
             </li>
             <li>
               <NavLink to="/" className={activeLink}>
@@ -137,6 +141,22 @@ const Header = () => {
                 </NavLink>
               </ShowOnLogOut>
               <ShowOnLogIn>
+                <a href="#home" style={{ color: "#ff4500" }}>
+                  <FaUserCircle size={16} />
+                  Hi, {displayUsername}
+                </a>
+              </ShowOnLogIn>
+              <ShowOnLogIn>
+                <NavLink to="/order-history" className={activeLink}>
+                  My Orders
+                </NavLink>
+              </ShowOnLogIn>
+              <ShowOnLogIn>
+                <NavLink to="/" onClick={logOut}>
+                  Logout
+                </NavLink>
+              </ShowOnLogIn>
+              {/* <ShowOnLogIn>
                 <a href="#Home" style={{ color: "#ff4500" }}>
                   <FaUserCircle size={16} />
                   Hello, {displayUsername}
@@ -148,7 +168,7 @@ const Header = () => {
                 <NavLink to="/" onClick={logOut}>
                   Logout
                 </NavLink>
-              </ShowOnLogIn>
+              </ShowOnLogIn> */}
             </span>
 
             {cart}

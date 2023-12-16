@@ -1,14 +1,16 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // Pages
-import { Home, Contact, Cart, Admin, Login, Register, Reset } from "./pages";
+import { Home, Contact, Cart, Login, Register, Reset, Admin } from "./pages";
 
 // component
 import { Header, Footer } from "./components";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AdminOnlyRoute from "./components/adminOnlyRoute/AdminOnlyRoute";
+import AdminOnlyRoute, {
+  AdminOnlyLink,
+} from "./components/adminOnlyRoute/AdminOnlyRoute";
 
 const App = () => {
   return (
@@ -20,7 +22,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/admin" element={<Admin />} />
+
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/reset" element={<Reset />} />
