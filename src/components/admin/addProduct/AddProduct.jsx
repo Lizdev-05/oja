@@ -18,14 +18,22 @@ const AddProduct = () => {
     description: "",
   });
 
-  const handleInputChange = () => {};
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProduct({ ...product, [name]: value });
+  };
   const handleImageChange = () => {};
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(product);
+  };
 
   return (
     <div className={style.product}>
       <h1>Add New Product</h1>
-      <Card className={style.card}>
-        <form action="">
+      <Card cardClass={style.card}>
+        <form action="" onSubmit={handleSubmit}>
           <label htmlFor=""> Product name:</label>
           <input
             type="text"
@@ -54,7 +62,7 @@ const AddProduct = () => {
               type="text"
               name="imageUrl"
               disabled
-              required
+              // required
               value={product.imageURL}
             />
           </Card>
@@ -99,9 +107,9 @@ const AddProduct = () => {
           />
           <label htmlFor=""> Product Description:</label>
           <textarea
-            name="desc"
+            name="description"
             required
-            value={product.desc}
+            value={product.description}
             onChange={(e) => handleInputChange(e)}
             cols="30"
             rows="10"
