@@ -12,6 +12,7 @@ import {
   SET_ACTIVE_USER,
 } from "../../redux/slice/authSlice";
 import ShowOnLogIn, { ShowOnLogOut } from "../hideLinks/HiddenLinks";
+import AdminOnlyRoute from "../adminOnlyRoute/AdminOnlyRoute";
 
 const logo = (
   <div className={style.logo}>
@@ -66,6 +67,7 @@ const Header = () => {
         }
 
         // dispatch user to redux store
+
         dispatch(
           SET_ACTIVE_USER({
             id: user.uid,
@@ -109,6 +111,11 @@ const Header = () => {
             <li className={style["logo-mobile"]}>
               {logo}
               <FaTimes size={22} onClick={hideMenu} />
+            </li>
+            <li>
+              <AdminOnlyRoute>
+                <button className="--btn --btn-secondary">Admin</button>
+              </AdminOnlyRoute>
             </li>
             <li>
               <NavLink to="/" className={activeLink}>
