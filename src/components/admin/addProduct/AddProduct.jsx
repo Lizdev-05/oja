@@ -70,6 +70,7 @@ const AddProduct = () => {
     );
   };
 
+  // Add data to the firebase with firebase add doc : https://firebase.google.com/docs/firestore/manage-data/add-data
   const handleSubmit = (e) => {
     e.preventDefault();
     setisLoading(true);
