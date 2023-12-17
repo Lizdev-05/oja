@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import style from "./AddProducts.module.scss";
 import Card from "../../card/Card";
-import { ref, uploadBytesResumable } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../../firebase/config";
+import { toast } from "react-toastify";
 
 const categories = [
   { id: 1, name: "Laptop" },
@@ -20,6 +21,8 @@ const AddProduct = () => {
     description: "",
   });
 
+  const [uploadProgress, setUploadProgress] = useState(0);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProduct({ ...product, [name]: value });
@@ -31,8 +34,31 @@ const AddProduct = () => {
     //Monitoring and uploading image with Monitor Upload Progress from firebase
     //Create a storage on Firebase and changes the ruke to suit your usecase :https://console.firebase.google.com/u/0/project/market-1c239/storage/market-1c239.appspot.com/files
 
+    //Storing file
     const storageRef = ref(storage, `Ọjà/${Date.now()} ${file}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
+
+    //Upload Progress
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setUploadProgress(progress);
+      },
+      (error) => {
+        // Handle unsuccessful uploads
+        toast.error(error.message);
+      },
+      () => {
+        // Handle successful uploads on complete
+        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setProduct({ ...product, imageURL: downloadURL });
+          toast.success("Image uploaded successfully...");
+        });
+      }
+    );
   };
 
   const handleSubmit = (e) => {
@@ -57,11 +83,19 @@ const AddProduct = () => {
 
           <label htmlFor="">Product Image</label>
           <Card cardClass={style.group}>
-            <div className={style.progress}>
-              <div className={style["progress-bar"]} style={{ width: "50%" }}>
-                Uploading 50%
+            {uploadProgress === 0 ? null : (
+              <div className={style.progress}>
+                <div
+                  className={style["progress-bar"]}
+                  style={{ width: `${uploadProgress}%` }}
+                >
+                  {uploadProgress < 100
+                    ? `Uploading ${uploadProgress}%`
+                    : `Upload Complete ${uploadProgress}%`}
+                </div>
               </div>
-            </div>
+            )}
+
             <input
               type="file"
               accept="image/*"
