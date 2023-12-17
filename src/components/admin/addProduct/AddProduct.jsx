@@ -103,14 +103,17 @@ const AddProduct = () => {
               value={product.image}
               onChange={(e) => handleImageChange(e)}
             />
-            <input
-              type="text"
-              name="imageUrl"
-              disabled
-              required
-              placeholder="Image url"
-              value={product.imageURL}
-            />
+
+            {product.imageURL === "" ? null : (
+              <input
+                type="text"
+                name="imageUrl"
+                disabled
+                required
+                placeholder="Image url"
+                value={product.imageURL}
+              />
+            )}
           </Card>
 
           <label htmlFor=""> Product Price:</label>
