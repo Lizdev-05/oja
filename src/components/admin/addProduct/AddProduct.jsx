@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import style from "./AddProducts.module.scss";
 import Card from "../../card/Card";
+import { ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../../firebase/config";
 
 const categories = [
   { id: 1, name: "Laptop" },
@@ -12,7 +14,7 @@ const AddProduct = () => {
   const [product, setProduct] = useState({
     name: "",
     imageURL: "",
-    price: null,
+    price: 0,
     category: "",
     brand: "",
     description: "",
@@ -22,7 +24,16 @@ const AddProduct = () => {
     const { name, value } = e.target;
     setProduct({ ...product, [name]: value });
   };
-  const handleImageChange = () => {};
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    console.log(file);
+
+    //Monitoring and uploading image with Monitor Upload Progress from firebase
+    //Create a storage on Firebase and changes the ruke to suit your usecase :https://console.firebase.google.com/u/0/project/market-1c239/storage/market-1c239.appspot.com/files
+
+    const storageRef = ref(storage, `Ọjà/${Date.now()} ${file}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -62,7 +73,8 @@ const AddProduct = () => {
               type="text"
               name="imageUrl"
               disabled
-              // required
+              required
+              placeholder="Image url"
               value={product.imageURL}
             />
           </Card>
