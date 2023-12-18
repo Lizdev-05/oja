@@ -14,6 +14,7 @@ import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Loader from "../../loader/Loader";
 import { deleteObject, ref } from "firebase/storage";
+import Notiflix from "notiflix";
 
 const ViewProducts = () => {
   const [products, setProducts] = useState([]);
@@ -57,6 +58,31 @@ const ViewProducts = () => {
     } catch (error) {
       toast.error(error.message);
     }
+  };
+
+  // USe Notiflix to confirm delete : https://www.npmjs.com/package/notiflix
+  const confirmDelete = (id, imageURL) => {
+    Notiflix.Confirm.show(
+      "Delete Product",
+      "Are you sure you want to delete this product?",
+      "Delete",
+      "Cancel",
+      function okCb() {
+        deleteProduct(id, imageURL);
+      },
+      function cancelCb() {
+        console.log("Delete canceled");
+      },
+      {
+        width: "320px",
+        borderRadius: "8px",
+        titleColor: "orangered",
+        okButtonBackground: "orangered",
+        cssAnimationStyle: "zoom",
+
+        // etc...
+      }
+    );
   };
   return (
     <>
@@ -103,7 +129,7 @@ const ViewProducts = () => {
                       <FaTrashAlt
                         size={18}
                         color="red"
-                        onClick={() => deleteProduct(id, imageURL)}
+                        onClick={() => confirmDelete(id, imageURL)}
                       />
                     </td>
                   </tr>
