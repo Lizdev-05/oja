@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import style from "./AddProducts.module.scss";
 import Card from "../../card/Card";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import {
+  deleteObject,
+  getDownloadURL,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { db, storage } from "../../../firebase/config";
 import { toast } from "react-toastify";
 import { Timestamp, addDoc, collection, doc, setDoc } from "firebase/firestore";
@@ -117,22 +122,28 @@ const AddProduct = () => {
   const editForm = (e) => {
     e.preventDefault();
     setisLoading(true);
-    // set a new document in products collection with https://firebase.google.com/docs/firestore/manage-data/add-data
-    setDoc(doc(db, "products", id), {
-      name: product.name,
-      imageURL: product.imageURL,
-      price: Number(product.price),
-      category: product.category,
-      brand: product.brand,
-      description: product.description,
-      createdAt: productEdit.createdAt,
-      editedAt: Timestamp.now().toDate(),
-    });
-    setisLoading(false);
-    toast.success("Product edited successfully!!!");
 
-    navigate("/admin/all-products");
+    //Check if the image is not the same as the previous one and replace the image
+    if (product.imageURL !== productEdit.imageURL) {
+      const storageRef = ref(storage, productEdit.imageURL);
+      deleteObject(storageRef);
+    }
     try {
+      // set a new document in products collection with https://firebase.google.com/docs/firestore/manage-data/add-data
+      setDoc(doc(db, "products", id), {
+        name: product.name,
+        imageURL: product.imageURL,
+        price: Number(product.price),
+        category: product.category,
+        brand: product.brand,
+        description: product.description,
+        createdAt: productEdit.createdAt,
+        editedAt: Timestamp.now().toDate(),
+      });
+      setisLoading(false);
+      toast.success("Product edited successfully!!!");
+
+      navigate("/admin/all-products");
     } catch (error) {
       setisLoading(false);
       toast.error(error.message);
