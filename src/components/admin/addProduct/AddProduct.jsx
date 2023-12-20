@@ -4,7 +4,7 @@ import Card from "../../card/Card";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { db, storage } from "../../../firebase/config";
 import { toast } from "react-toastify";
-import { Timestamp, addDoc, collection } from "firebase/firestore";
+import { Timestamp, addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../loader/Loader";
 import { useSelector } from "react-redux";
@@ -117,6 +117,21 @@ const AddProduct = () => {
   const editForm = (e) => {
     e.preventDefault();
     setisLoading(true);
+    // set a new document in products collection with https://firebase.google.com/docs/firestore/manage-data/add-data
+    setDoc(doc(db, "products", id), {
+      name: product.name,
+      imageURL: product.imageURL,
+      price: Number(product.price),
+      category: product.category,
+      brand: product.brand,
+      description: product.description,
+      createdAt: productEdit.createdAt,
+      editedAt: Timestamp.now().toDate(),
+    });
+    setisLoading(false);
+    toast.success("Product edited successfully!!!");
+
+    navigate("/admin/all-products");
     try {
     } catch (error) {
       setisLoading(false);
