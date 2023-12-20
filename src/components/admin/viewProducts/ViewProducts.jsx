@@ -39,7 +39,6 @@ const ViewProducts = () => {
           id: doc.id,
           ...doc.data(),
         }));
-        console.log(allProducts);
         setProducts(allProducts);
         setIsLoading(false);
         dispatch(
@@ -92,6 +91,7 @@ const ViewProducts = () => {
       }
     );
   };
+
   return (
     <>
       {isLoading && <Loader />}
@@ -130,7 +130,7 @@ const ViewProducts = () => {
                     <td>{brand}</td>
                     <td>{`$${price}`}</td>
                     <td className={style.icons}>
-                      <Link to={`/admin/add-product${id}`}>
+                      <Link to={`/admin/add-product/${id}`}>
                         <FaEdit size={20} color="green" />
                       </Link>
                       &nbsp;

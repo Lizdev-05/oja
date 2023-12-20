@@ -5,8 +5,10 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { db, storage } from "../../../firebase/config";
 import { toast } from "react-toastify";
 import { Timestamp, addDoc, collection } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../loader/Loader";
+import { useSelector } from "react-redux";
+import { selectProducts } from "../../../redux/slice/productSlice";
 
 const categories = [
   { id: 1, name: "Laptop" },
@@ -24,8 +26,16 @@ const initialState = {
   description: "",
 };
 const AddProduct = () => {
-  const [product, setProduct] = useState({
-    ...initialState,
+  const { id } = useParams();
+  //Getting alll products from redux
+  const products = useSelector(selectProducts);
+
+  //Gettting a single product from all the products...
+  const productEdit = products.find((singleProduct) => singleProduct.id === id);
+
+  const [product, setProduct] = useState(() => {
+    const newState = detectForm(id, { ...initialState }, productEdit);
+    return newState;
   });
 
   const [uploadProgress, setUploadProgress] = useState(0);
@@ -95,13 +105,32 @@ const AddProduct = () => {
     }
   };
 
+  //detect form Id : either edit or add product
+  function detectForm(id, f1, f2) {
+    if (id === "ADD") {
+      return f1;
+    }
+    return f2;
+  }
+
+  //Edit Form
+  const editForm = (e) => {
+    e.preventDefault();
+    setisLoading(true);
+    try {
+    } catch (error) {
+      setisLoading(false);
+      toast.error(error.message);
+    }
+  };
+
   return (
     <>
       {isLoading && <Loader />}
       <div className={style.product}>
-        <h1>Add New Product</h1>
+        <h2> {detectForm(id, "Add Product", "Edit Product")}</h2>
         <Card cardClass={style.card}>
-          <form action="" onSubmit={handleSubmit}>
+          <form action="" onSubmit={detectForm(id, handleSubmit, editForm)}>
             <label htmlFor=""> Product name:</label>
             <input
               type="text"
@@ -194,7 +223,10 @@ const AddProduct = () => {
               cols="30"
               rows="10"
             ></textarea>
-            <button className="--btn --btn-primary">Save Product</button>
+            <button className="--btn --btn-primary">
+              {" "}
+              {detectForm(id, "Save Product", "Edit Product")}
+            </button>
           </form>
         </Card>
       </div>
