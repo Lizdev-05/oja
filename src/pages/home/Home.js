@@ -2,12 +2,13 @@ import React from "react";
 import "./Home.module.scss";
 import Slider from "../../components/slider/Slider";
 import AdminOnlyRoute from "../../components/adminOnlyRoute/AdminOnlyRoute";
+import Product from "../../components/product/Product";
 
 const Home = () => {
   // return <Slider />;
   return (
     <div>
-      <h1>Home</h1>
+      <Product />
     </div>
   );
 };

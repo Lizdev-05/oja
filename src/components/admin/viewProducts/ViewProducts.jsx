@@ -15,43 +15,59 @@ import { Link } from "react-router-dom";
 import Loader from "../../loader/Loader";
 import { deleteObject, ref } from "firebase/storage";
 import Notiflix from "notiflix";
-import { useDispatch } from "react-redux";
-import { STORE_PRODUCTS } from "../../../redux/slice/productSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  STORE_PRODUCTS,
+  selectProducts,
+} from "../../../redux/slice/productSlice";
+import useFetchCollection from "../../../customHooks/useFetchCollection";
 
 const ViewProducts = () => {
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const { data, isLoading } = useFetchCollection("products");
+
+  // const [products, setProducts] = useState([]);
+  // const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
+  const products = useSelector(selectProducts);
 
   useEffect(() => {
-    getProducts();
-  }, []);
+    dispatch(
+      STORE_PRODUCTS({
+        products: data,
+      })
+    );
+  }, [data]);
 
-  const getProducts = () => {
-    setIsLoading(true);
-    // GEt data from database through https://firebase.google.com/docs/firestore/query-data/get-data
-    try {
-      const productsRef = collection(db, "products");
-      const queryProduct = query(productsRef, orderBy("createdAt", "desc"));
+  // ###################### INITIAL CODE BEFORE USEFETHCOLLECTION HOOK######################
+  // useEffect(() => {
+  //   getProducts();
+  // }, []);
 
-      onSnapshot(queryProduct, (querySnapshot) => {
-        const allProducts = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setProducts(allProducts);
-        setIsLoading(false);
-        dispatch(
-          STORE_PRODUCTS({
-            products: allProducts,
-          })
-        );
-      });
-    } catch (error) {
-      setIsLoading(false);
-      toast.error(error.message);
-    }
-  };
+  // const getProducts = () => {
+  //   setIsLoading(true);
+  // GEt data from database through https://firebase.google.com/docs/firestore/query-data/get-data
+  //   try {
+  //     const productsRef = collection(db, "products");
+  //     const queryProduct = query(productsRef, orderBy("createdAt", "desc"));
+
+  //     onSnapshot(queryProduct, (querySnapshot) => {
+  //       const allProducts = querySnapshot.docs.map((doc) => ({
+  //         id: doc.id,
+  //         ...doc.data(),
+  //       }));
+  //       setProducts(allProducts);
+  //       setIsLoading(false);
+  //       dispatch(
+  //         STORE_PRODUCTS({
+  //           products: allProducts,
+  //         })
+  //       );
+  //     });
+  //   } catch (error) {
+  //     setIsLoading(false);
+  //     toast.error(error.message);
+  //   }
+  // };
 
   const deleteProduct = async (id, imageURL) => {
     try {
