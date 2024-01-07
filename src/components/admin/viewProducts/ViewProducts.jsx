@@ -36,7 +36,7 @@ const ViewProducts = () => {
         products: data,
       })
     );
-  }, [data]);
+  }, [dispatch, data]);
 
   // ###################### INITIAL CODE BEFORE USEFETHCOLLECTION HOOK######################
   // useEffect(() => {
