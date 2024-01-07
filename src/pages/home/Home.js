@@ -17,13 +17,13 @@ const Home = () => {
     }
   };
 
-  useEffect(() => {
-    scrollToProduct();
-  }, []);
+  // useEffect(() => {
+  //   scrollToProduct();
+  // }, []);
 
   return (
     <div>
-      <Slider />;
+      {/* <Slider /> */}
       <Product />
     </div>
   );
