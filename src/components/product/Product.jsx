@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Product.module.scss";
 import ProductFilter from "./productFilter/ProductFilter";
 import ProductList from "./productList/ProductList";
@@ -10,9 +10,11 @@ import {
 } from "../../redux/slice/productSlice";
 import useFetchCollection from "../../customHooks/useFetchCollection";
 import spinnerImg from "../../assets/spinner.jpg";
+import { FaCog } from "react-icons/fa";
 
 const Product = () => {
   const { data, isLoading } = useFetchCollection("products");
+  const [showFilter, setShowFilter] = useState(false);
 
   const dispatch = useDispatch();
   const products = useSelector(selectProducts);
@@ -31,9 +33,18 @@ const Product = () => {
       );
     }
   }, [dispatch, data]);
+
+  const showFilterFn = () => {
+    setShowFilter(!showFilter);
+  };
+
   return (
     <section className={`container ${styles.product}`}>
-      <aside className={styles.filter}>
+      <aside
+        className={
+          showFilter ? `${styles.filter} ${styles.show}` : `${styles.filter}`
+        }
+      >
         {isLoading ? null : <ProductFilter />}
       </aside>
       <div className={styles.content}>
@@ -47,6 +58,13 @@ const Product = () => {
         ) : (
           <ProductList products={products} />
         )}
+
+        <div className={styles.icon} onClick={showFilterFn}>
+          <FaCog size={20} color="orangered" />
+          <p>
+            <b>{showFilter ? "Hide filter" : "Show filter"}</b>
+          </p>
+        </div>
       </div>
     </section>
   );
