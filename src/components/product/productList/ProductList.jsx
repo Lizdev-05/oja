@@ -18,6 +18,18 @@ const ProductList = ({ products }) => {
 
   const filteredProducts = useSelector(selectFilteredProducts);
 
+  // Pagination UseStates
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage, setProductsPerPage] = useState(2);
+
+  // Get current products
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
   // Filter products
   const dispatch = useDispatch();
 
