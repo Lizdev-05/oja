@@ -10,6 +10,7 @@ import {
   SORT_PRODUCTS,
   selectFilteredProducts,
 } from "../../../redux/slice/filterSlice";
+import { Pagination } from "../../pagination/Pagination";
 
 const ProductList = ({ products }) => {
   const [grid, setGrid] = useState(true);
@@ -90,6 +91,14 @@ const ProductList = ({ products }) => {
           </>
         )}
       </div>
+
+      {/* Pagination */}
+      <Pagination
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        productsPerPage={productsPerPage}
+        totalProducts={filteredProducts.length}
+      />
     </div>
   );
 };
