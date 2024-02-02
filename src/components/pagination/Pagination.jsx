@@ -31,11 +31,13 @@ export const Pagination = ({
       <li>prev</li>
 
       {pageNumbers.map((number) => {
-        return (
-          <li key={number} onClick={() => paginate(number)}>
-            {number}
-          </li>
-        );
+        if (number < maxPageNumberLimit + 1 && number > minPageNumberLimit) {
+          return (
+            <li key={number} onClick={() => paginate(number)}>
+              {number}
+            </li>
+          );
+        }
       })}
 
       <li>next</li>
