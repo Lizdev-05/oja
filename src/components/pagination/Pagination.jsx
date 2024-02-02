@@ -26,21 +26,57 @@ export const Pagination = ({
     setCurrentPage(number);
   };
 
+  // Next button
+  const handleNextBtn = () => {
+    setCurrentPage(currentPage + 1);
+    if (currentPage + 1 > maxPageNumberLimit) {
+      setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
+      setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit);
+    }
+  };
+
+  // Previous button
+  const handlePrevBtn = () => {
+    setCurrentPage(currentPage - 1);
+    if ((currentPage - 1) % pageNumberLimit === 0) {
+      setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
+      setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit);
+    }
+  };
+
   return (
     <ul className={styles.pagination}>
-      <li>prev</li>
+      <li
+        onClick={handlePrevBtn}
+        className={currentPage == pageNumbers[0] ? `${styles.hidden}` : null}
+      >
+        prev
+      </li>
 
       {pageNumbers.map((number) => {
         if (number < maxPageNumberLimit + 1 && number > minPageNumberLimit) {
           return (
-            <li key={number} onClick={() => paginate(number)}>
+            <li
+              key={number}
+              onClick={() => paginate(number)}
+              className={currentPage === number ? `${styles.active}` : null}
+            >
               {number}
             </li>
           );
         }
       })}
 
-      <li>next</li>
+      <li
+        onClick={handleNextBtn}
+        className={
+          currentPage === pageNumbers[pageNumbers.length - 1]
+            ? `${styles.hidden}`
+            : null
+        }
+      >
+        next
+      </li>
       <p>
         <b>Page {currentPage}</b>
         {` of `}
