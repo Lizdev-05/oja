@@ -21,12 +21,21 @@ export const Pagination = ({
     pageNumbers.push(i);
   }
 
+  // Paginate the products
+  const paginate = (number) => {
+    setCurrentPage(number);
+  };
+
   return (
     <ul className={styles.pagination}>
       <li>prev</li>
 
       {pageNumbers.map((number) => {
-        return <li key={number}>{number}</li>;
+        return (
+          <li key={number} onClick={() => paginate(number)}>
+            {number}
+          </li>
+        );
       })}
 
       <li>next</li>
