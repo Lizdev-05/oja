@@ -1,7 +1,8 @@
 import React from "react";
 import styles from "./Cart.module.scss";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
+  ADD_TO_CART,
   selectCartItems,
   selectCartTotalAmount,
   selectCartTotalQuantity,
@@ -14,6 +15,17 @@ const Cart = () => {
   const cartItems = useSelector(selectCartItems);
   const totalAmount = useSelector(selectCartTotalAmount);
   const totalQuantity = useSelector(selectCartTotalQuantity);
+
+  const dispatch = useDispatch();
+
+  const increaseCart = (cart) => {
+    console.log("increase cart", cart);
+    dispatch(ADD_TO_CART(cart));
+  };
+
+  const decraseCart = () => {
+    console.log("decrease cart");
+  };
 
   return (
     <section>
@@ -62,9 +74,19 @@ const Cart = () => {
                       <td>{`$${price}`}</td>
                       <td>
                         <div className={styles.count}>
-                          <button className="--btn">-</button>
+                          <button
+                            className="--btn"
+                            onClick={() => decraseCart(cart)}
+                          >
+                            -
+                          </button>
                           <b>{cartQuantity}</b>
-                          <button className="--btn">+</button>
+                          <button
+                            className="--btn"
+                            onClick={() => increaseCart(cart)}
+                          >
+                            +
+                          </button>
                         </div>
                       </td>
                       <td>{(price * cartQuantity).toFixed(2)}</td>
