@@ -3,6 +3,7 @@ import styles from "./Cart.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ADD_TO_CART,
+  DECREASE_CART,
   selectCartItems,
   selectCartTotalAmount,
   selectCartTotalQuantity,
@@ -19,12 +20,11 @@ const Cart = () => {
   const dispatch = useDispatch();
 
   const increaseCart = (cart) => {
-    console.log("increase cart", cart);
     dispatch(ADD_TO_CART(cart));
   };
 
-  const decraseCart = () => {
-    console.log("decrease cart");
+  const decreaseCart = (cart) => {
+    dispatch(DECREASE_CART(cart));
   };
 
   return (
@@ -76,7 +76,7 @@ const Cart = () => {
                         <div className={styles.count}>
                           <button
                             className="--btn"
-                            onClick={() => decraseCart(cart)}
+                            onClick={() => decreaseCart(cart)}
                           >
                             -
                           </button>
