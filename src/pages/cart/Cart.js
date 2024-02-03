@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   ADD_TO_CART,
   CALCULATE_SUB_TOTAL,
+  CALCULATE_TOTAL_QUANTITY,
   CLEAR_CART,
   DECREASE_CART,
   REMOVE_FROM_CART,
@@ -40,6 +41,7 @@ const Cart = () => {
 
   useEffect(() => {
     dispatch(CALCULATE_SUB_TOTAL());
+    dispatch(CALCULATE_TOTAL_QUANTITY());
   }, [dispatch, cartItems]);
 
   return (
@@ -129,7 +131,9 @@ const Cart = () => {
                 <br />
 
                 <Card cardClass={styles.card}>
-                  <p>{`Cart Item(s): ${totalQuantity}`}</p>
+                  <p>
+                    <b>{`Cart Item(s): ${totalQuantity}`}</b>
+                  </p>
                   <div className={styles.text}>
                     <h4>Subtotal : </h4>
                     <h3>{`$${totalAmount.toFixed(2)}`}</h3>
