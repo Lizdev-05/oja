@@ -65,10 +65,24 @@ const cartSlice = createSlice({
       //Save the cartItems to localStorage
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
+    //     REMOVE from cart
+    REMOVE_FROM_CART: (state, action) => {
+      console.log(action.payload);
+      const newCartItem = state.cartItems.filter(
+        (item) => item.id !== action.payload.id
+      );
+      state.cartItems = newCartItem;
+      toast.error(`${action.payload.name} removed from cart`, {
+        position: "top-left",
+      });
+      //Save the cartItems to localStorage
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+    },
   },
 });
 
-export const { ADD_TO_CART, DECREASE_CART } = cartSlice.actions;
+export const { ADD_TO_CART, DECREASE_CART, REMOVE_FROM_CART } =
+  cartSlice.actions;
 
 export const selectCartItems = (state) => state.cart.cartItems;
 export const selectCartTotalQuantity = (state) => state.cart.cartTotalQuantity;
