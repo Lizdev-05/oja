@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./Cart.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import {
   ADD_TO_CART,
+  CALCULATE_SUB_TOTAL,
   CLEAR_CART,
   DECREASE_CART,
   REMOVE_FROM_CART,
@@ -36,6 +37,10 @@ const Cart = () => {
   const clearCart = () => {
     dispatch(CLEAR_CART());
   };
+
+  useEffect(() => {
+    dispatch(CALCULATE_SUB_TOTAL());
+  }, [dispatch, cartItems]);
 
   return (
     <section>
