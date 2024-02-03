@@ -15,7 +15,6 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     ADD_TO_CART: (state, action) => {
-      console.log(action.payload);
       //I created a productIndex variable to identify specific product and check the cart if it already exists... comparing the item id to the action.payload.id which is the product id received from the dispatch(frontend)
 
       const productIndex = state.cartItems.findIndex(
@@ -42,8 +41,6 @@ const cartSlice = createSlice({
     },
 
     DECREASE_CART: (state, action) => {
-      console.log(action.payload);
-
       const productIndex = state.cartItems.findIndex(
         (item) => item.id === action.payload.id
       );
@@ -67,7 +64,6 @@ const cartSlice = createSlice({
     },
     //     REMOVE from cart
     REMOVE_FROM_CART: (state, action) => {
-      console.log(action.payload);
       const newCartItem = state.cartItems.filter(
         (item) => item.id !== action.payload.id
       );
@@ -78,10 +74,20 @@ const cartSlice = createSlice({
       //Save the cartItems to localStorage
       localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
     },
+
+    //     CLEAR_CART
+    CLEAR_CART: (state) => {
+      state.cartItems = [];
+      toast.error(`Cart cleared`, {
+        position: "top-left",
+      });
+      //Save the cartItems to localStorage
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+    },
   },
 });
 
-export const { ADD_TO_CART, DECREASE_CART, REMOVE_FROM_CART } =
+export const { ADD_TO_CART, DECREASE_CART, REMOVE_FROM_CART, CLEAR_CART } =
   cartSlice.actions;
 
 export const selectCartItems = (state) => state.cart.cartItems;
