@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./ProductItem.module.scss";
 import Card from "../../card/Card";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { ADD_TO_CART } from "../../../redux/slice/cartSlice";
 
 const ProductItem = ({
   product,
@@ -12,12 +14,18 @@ const ProductItem = ({
   description,
   imageURL,
 }) => {
+  const dispatch = useDispatch();
+
   const shortenText = (text, maxLength) => {
     if (text.length > maxLength) {
       const shortenedText = text.substr(0, maxLength).concat("...");
       return shortenedText;
     }
     return text;
+  };
+
+  const addToCart = (product) => {
+    dispatch(ADD_TO_CART(product));
   };
 
   return (
@@ -36,7 +44,12 @@ const ProductItem = ({
           <p className={styles.desc}>{shortenText(description, 200)}</p>
         )}
 
-        <button className="--btn --btn-danger">Add to cart</button>
+        <button
+          className="--btn --btn-danger"
+          onClick={() => addToCart(product)}
+        >
+          Add to cart
+        </button>
       </div>
     </Card>
   );
