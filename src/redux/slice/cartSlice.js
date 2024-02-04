@@ -8,6 +8,7 @@ const initialState = {
     : [],
   cartTotalQuantity: 0,
   cartTotalAmount: 0,
+  previousUrl: "",
 };
 
 const cartSlice = createSlice({
@@ -112,6 +113,11 @@ const cartSlice = createSlice({
       }, 0);
       state.cartTotalQuantity = totalQuantity;
     },
+
+    //SAVE  URL
+    SAVE_URL: (state, action) => {
+      state.previousUrl = action.payload;
+    },
   },
 });
 
@@ -122,6 +128,7 @@ export const {
   CLEAR_CART,
   CALCULATE_SUB_TOTAL,
   CALCULATE_TOTAL_QUANTITY,
+  SAVE_URL,
 } = cartSlice.actions;
 
 export const selectCartItems = (state) => state.cart.cartItems;

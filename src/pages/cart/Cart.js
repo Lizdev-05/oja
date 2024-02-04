@@ -8,18 +8,22 @@ import {
   CLEAR_CART,
   DECREASE_CART,
   REMOVE_FROM_CART,
+  SAVE_URL,
   selectCartItems,
   selectCartTotalAmount,
   selectCartTotalQuantity,
 } from "../../redux/slice/cartSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaTrashAlt } from "react-icons/fa";
 import Card from "../../components/card/Card";
+import { selectIsLoggedIn } from "../../redux/slice/authSlice";
 
 const Cart = () => {
   const cartItems = useSelector(selectCartItems);
   const totalAmount = useSelector(selectCartTotalAmount);
   const totalQuantity = useSelector(selectCartTotalQuantity);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -42,7 +46,22 @@ const Cart = () => {
   useEffect(() => {
     dispatch(CALCULATE_SUB_TOTAL());
     dispatch(CALCULATE_TOTAL_QUANTITY());
+
+    // I call the SAVE_URL action here to clear the URL in the store and make sure nothing is saved there until the checkout function is called
+    dispatch(SAVE_URL(""));
   }, [dispatch, cartItems]);
+
+  // Getting the current URL for checkout page
+  const url = window.location.href;
+
+  const checkout = () => {
+    if (isLoggedIn) {
+      navigate("/checkout-details");
+    } else {
+      dispatch(SAVE_URL(url));
+      navigate("/login");
+    }
+  };
 
   return (
     <section>
@@ -139,7 +158,10 @@ const Cart = () => {
                     <h3>{`$${totalAmount.toFixed(2)}`}</h3>
                   </div>
                   <p>Tax and shipping calculated at checkout</p>
-                  <button className="--btn --btn-primary --btn-block">
+                  <button
+                    className="--btn --btn-primary --btn-block"
+                    onClick={checkout}
+                  >
                     Checkout
                   </button>{" "}
                 </Card>
