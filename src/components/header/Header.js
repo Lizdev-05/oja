@@ -6,7 +6,7 @@ import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../../firebase/config";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   REMOVE_ACTIVE_USER,
   SET_ACTIVE_USER,
@@ -15,6 +15,10 @@ import ShowOnLogIn, { ShowOnLogOut } from "../hideLinks/HiddenLinks";
 import AdminOnlyRoute, {
   AdminOnlyLink,
 } from "../adminOnlyRoute/AdminOnlyRoute";
+import {
+  CALCULATE_TOTAL_QUANTITY,
+  selectCartTotalQuantity,
+} from "../../redux/slice/cartSlice";
 
 const logo = (
   <div className={style.logo}>
@@ -27,21 +31,17 @@ const logo = (
 );
 
 const activeLink = ({ isActive }) => (isActive ? `${style.active}` : "");
-const cart = (
-  <span className={style.cart}>
-    <NavLink to="/cart" className={activeLink}>
-      Cart
-      <FaShoppingCart size={20} />
-      <p>0</p>
-    </NavLink>
-  </span>
-);
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [displayUsername, setDisplayUsername] = useState("");
   const [scrollPage, setScrollPage] = useState(false);
   const dispatch = useDispatch();
+  const cartTotalQuantity = useSelector(selectCartTotalQuantity);
+
+  useEffect(() => {
+    dispatch(CALCULATE_TOTAL_QUANTITY());
+  }, [dispatch]);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -104,6 +104,17 @@ const Header = () => {
         toast.error(error.message);
       });
   };
+
+  const cart = (
+    <span className={style.cart}>
+      <NavLink to="/cart" className={activeLink}>
+        Cart
+        <FaShoppingCart size={20} />
+        <p>{cartTotalQuantity}</p>
+      </NavLink>
+    </span>
+  );
+
   return (
     <header className={scrollPage ? `${style.fixed}` : null}>
       <div className={style.header}>
