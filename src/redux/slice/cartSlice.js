@@ -93,7 +93,9 @@ const cartSlice = createSlice({
         const countItemAmount = cartQuantity * price;
         return array.push(countItemAmount);
       });
-      const totalAmount = array.reduce((a, b) => a + b, 0);
+      const totalAmount = array.reduce((a, b) => {
+        return a + b;
+      }, 0);
       state.cartTotalAmount = totalAmount;
     },
 
@@ -105,7 +107,9 @@ const cartSlice = createSlice({
         const quantity = cartQuantity;
         return array.push(quantity);
       });
-      const totalQuantity = array.reduce((a, b) => a + b, 0);
+      const totalQuantity = array.reduce((a, b) => {
+        return a + b;
+      }, 0);
       state.cartTotalQuantity = totalQuantity;
     },
   },

@@ -6,28 +6,60 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 import styles from "./ProductDetail.module.scss";
 import spinnerImg from "../../../assets/spinner.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  ADD_TO_CART,
+  CALCULATE_TOTAL_QUANTITY,
+  DECREASE_CART,
+  selectCartItems,
+} from "../../../redux/slice/cartSlice";
 
 const ProductDetail = () => {
   const { id } = useParams();
+  console.log(id);
   const [product, setProduct] = useState(null);
+  const dispatch = useDispatch();
+  // I used the useSelector hook to get the cart items from the redux store
+  const cartItems = useSelector(selectCartItems);
 
-  // Use https://firebase.google.com/docs/firestore/query-data/get-data#get_a_document to get a product from the firestore database
+  // I used the find method to check if the product exists in the cart
+  const cart = cartItems.find((cart) => cart.id === id);
+
+  const isCartAdded = cartItems.findIndex((cart) => {
+    return cart.id === id;
+  });
+
+  // I Usesd https://firebase.google.com/docs/firestore/query-data/get-data#get_a_document to get a product from the firestore database
   const getProduct = async () => {
     const docRef = doc(db, "products", id);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
       // console.log("Document data:", docSnap.data());
-      setProduct(docSnap.data());
+      const obj = {
+        id: docSnap.id,
+        ...docSnap.data(),
+      };
+      // setProduct(docSnap.data());
+      setProduct(obj);
     } else {
-      // docSnap.data() will be undefined in this case
       toast.error("No such product!");
     }
   };
 
   useEffect(() => {
     getProduct();
-  }, [id]);
+  }, []);
+
+  const addToCart = (product) => {
+    dispatch(ADD_TO_CART(product));
+    dispatch(CALCULATE_TOTAL_QUANTITY());
+  };
+
+  const decreaseCart = (product) => {
+    dispatch(DECREASE_CART(product));
+    dispatch(CALCULATE_TOTAL_QUANTITY());
+  };
 
   return (
     <section>
@@ -55,13 +87,30 @@ const ProductDetail = () => {
                   <b>BRAND</b> {product.brand}
                 </p>
                 <div className={styles.count}>
-                  <button className="--btn">-</button>
-                  <p>
-                    <b>1</b>
-                  </p>
-                  <button className="--btn">+</button>
+                  {isCartAdded < 0 ? null : (
+                    <>
+                      <button
+                        className="--btn"
+                        onClick={() => decreaseCart(product)}
+                      >
+                        -
+                      </button>
+                      <p>{cart.cartQuantity}</p>
+                      <button
+                        className="--btn"
+                        onClick={() => addToCart(product)}
+                      >
+                        +
+                      </button>
+                    </>
+                  )}
                 </div>
-                <button className="--btn --btn-danger">ADD TO CART</button>
+                <button
+                  className="--btn --btn-danger"
+                  onClick={() => addToCart(product)}
+                >
+                  ADD TO CART
+                </button>
               </div>
 
               <div className={styles.reviews}>
