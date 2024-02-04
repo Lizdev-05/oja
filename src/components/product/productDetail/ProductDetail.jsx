@@ -16,7 +16,6 @@ import {
 
 const ProductDetail = () => {
   const { id } = useParams();
-  console.log(id);
   const [product, setProduct] = useState(null);
   const dispatch = useDispatch();
   // I used the useSelector hook to get the cart items from the redux store

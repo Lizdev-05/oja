@@ -40,6 +40,7 @@ const cart = (
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [displayUsername, setDisplayUsername] = useState("");
+  const [scrollPage, setScrollPage] = useState(false);
   const dispatch = useDispatch();
 
   const toggleMenu = () => {
@@ -84,6 +85,16 @@ const Header = () => {
     });
   }, [dispatch, displayUsername]);
 
+  // scroll event
+  const fixNavBar = () => {
+    if (window.scrollY > 50) {
+      setScrollPage(true);
+    } else {
+      setScrollPage(false);
+    }
+  };
+  window.addEventListener("scroll", fixNavBar);
+
   const logOut = () => {
     signOut(auth)
       .then(() => {
@@ -94,7 +105,7 @@ const Header = () => {
       });
   };
   return (
-    <header>
+    <header className={scrollPage ? `${style.fixed}` : null}>
       <div className={style.header}>
         {logo}
         <nav
