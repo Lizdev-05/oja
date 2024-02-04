@@ -12,6 +12,8 @@ import {
 import { auth } from "../../firebase/config";
 import { ToastContainer, toast } from "react-toastify";
 import Loader from "../../components/loader/Loader";
+import { useSelector } from "react-redux";
+import { selectPreviousUrl } from "../../redux/slice/cartSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,6 +22,15 @@ const Login = () => {
 
   const navigate = useNavigate();
 
+  // I create  a function to redirect based on the saved previousUrl
+  const previousUrl = useSelector(selectPreviousUrl);
+  const redirectUser = () => {
+    if (previousUrl.includes("cart")) {
+      navigate("/cart");
+    } else {
+      navigate("/");
+    }
+  };
   const loginUser = (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -31,7 +42,7 @@ const Login = () => {
 
         setIsLoading(false);
         toast.success("Login successful...");
-        navigate("/");
+        redirectUser();
       })
       .catch((error) => {
         setIsLoading(false);
@@ -45,7 +56,7 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         toast.success("Login successful...");
-        navigate("/");
+        redirectUser();
       })
       .catch((error) => {
         toast.error(error.message);
