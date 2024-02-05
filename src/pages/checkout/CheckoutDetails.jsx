@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import style from "./CheckoutDetails.module.scss";
 import Card from "../../components/card/Card";
+import { CountryDropdown } from "react-country-region-selector";
 
 const initialAddressState = {
   name: "",
@@ -96,7 +97,7 @@ const CheckoutDetails = () => {
                 value={shippingAddress.postal_code}
                 onChange={(e) => handleShipping(e)}
               />
-              <label htmlFor="">Country</label>
+              {/* <label htmlFor="">Country</label>
               <input
                 type="text"
                 placeholder="country"
@@ -104,7 +105,17 @@ const CheckoutDetails = () => {
                 name="country"
                 value={shippingAddress.country}
                 onChange={(e) => handleShipping(e)}
+              /> */}
+
+              <CountryDropdown
+                className={style.select}
+                valueType="short"
+                value={shippingAddress.country}
+                onChange={(val) => {
+                  handleShipping({ target: { name: "country", value: val } });
+                }}
               />
+
               <label htmlFor="">Phone</label>
               <input
                 type="text"
