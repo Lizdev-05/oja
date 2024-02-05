@@ -32,7 +32,11 @@ const CheckoutDetails = () => {
     setBillingAddress({ ...billingAddress, [name]: value });
   };
 
-  const handleSubmit = (e) => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("shippingAddress", shippingAddress);
+    console.log("billingAddress", billingAddress);
+  };
 
   return (
     <section>
@@ -65,7 +69,6 @@ const CheckoutDetails = () => {
               <input
                 type="text"
                 placeholder="address line 2"
-                required
                 name="line2"
                 value={shippingAddress.line2}
                 onChange={(e) => handleShipping(e)}
@@ -97,15 +100,6 @@ const CheckoutDetails = () => {
                 value={shippingAddress.postal_code}
                 onChange={(e) => handleShipping(e)}
               />
-              {/* <label htmlFor="">Country</label>
-              <input
-                type="text"
-                placeholder="country"
-                required
-                name="country"
-                value={shippingAddress.country}
-                onChange={(e) => handleShipping(e)}
-              /> */}
 
               <CountryDropdown
                 className={style.select}
@@ -124,6 +118,85 @@ const CheckoutDetails = () => {
                 value={shippingAddress.phone}
                 onChange={(e) => handleShipping(e)}
               />
+            </Card>
+            {/* // Billing Address */}
+            <Card cardClass={style.card}>
+              <h3>billing Address</h3>
+              <label htmlFor="">Recipient's Name</label>
+              <input
+                type="text"
+                name="name"
+                required
+                placeholder="Recipient's Name"
+                value={billingAddress.name}
+                onChange={(e) => handleBilling(e)}
+              />
+
+              <label htmlFor="">Address line 1</label>
+              <input
+                type="text"
+                placeholder="address line 1"
+                required
+                name="line1"
+                value={billingAddress.line1}
+                onChange={(e) => handleBilling(e)}
+              />
+              <label htmlFor="">Address line 2</label>
+              <input
+                type="text"
+                placeholder="address line 2"
+                name="line2"
+                value={billingAddress.line2}
+                onChange={(e) => handleBilling(e)}
+              />
+              <label htmlFor="">City</label>
+              <input
+                type="text"
+                placeholder="city"
+                required
+                name="city"
+                value={billingAddress.city}
+                onChange={(e) => handleBilling(e)}
+              />
+              <label htmlFor="">State</label>
+              <input
+                type="text"
+                placeholder="state"
+                required
+                name="state"
+                value={billingAddress.state}
+                onChange={(e) => handleBilling(e)}
+              />
+              <label htmlFor="">Postal Code</label>
+              <input
+                type="text"
+                placeholder="postal code"
+                required
+                name="postal_code"
+                value={billingAddress.postal_code}
+                onChange={(e) => handleBilling(e)}
+              />
+
+              <CountryDropdown
+                className={style.select}
+                valueType="short"
+                value={billingAddress.country}
+                onChange={(val) => {
+                  handleBilling({ target: { name: "country", value: val } });
+                }}
+              />
+
+              <label htmlFor="">Phone</label>
+              <input
+                type="text"
+                placeholder="phone"
+                name="phone"
+                value={billingAddress.phone}
+                onChange={(e) => handleBilling(e)}
+              />
+              <button type="submit" className="--btn --btn-primary">
+                Proceed to Payment
+              </button>
             </Card>
           </div>
         </form>
