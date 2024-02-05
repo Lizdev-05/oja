@@ -11,6 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import AdminOnlyRoute, {
   AdminOnlyLink,
 } from "./components/adminOnlyRoute/AdminOnlyRoute";
+import CheckoutDetails from "./pages/checkout/CheckoutDetails";
 
 const App = () => {
   return (
@@ -37,6 +38,7 @@ const App = () => {
           />
           <Route path="/product-details/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout-details" element={<CheckoutDetails />} />
         </Routes>
         <Footer />
       </BrowserRouter>
