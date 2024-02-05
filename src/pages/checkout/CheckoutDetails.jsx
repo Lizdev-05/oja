@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import style from "./CheckoutDetails.module.scss";
 import Card from "../../components/card/Card";
 import { CountryDropdown } from "react-country-region-selector";
+import { useDispatch } from "react-redux";
+import {
+  SAVE_BILLING_ADDRESS,
+  SAVE_SHIPPING_ADDRESS,
+} from "../../redux/slice/checkoutSlice";
 
 const initialAddressState = {
   name: "",
@@ -22,6 +27,8 @@ const CheckoutDetails = () => {
     ...initialAddressState,
   });
 
+  const dispatch = useDispatch();
+
   const handleShipping = (e) => {
     const { name, value } = e.target;
     setShippingAddress({ ...shippingAddress, [name]: value });
@@ -34,8 +41,8 @@ const CheckoutDetails = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("shippingAddress", shippingAddress);
-    console.log("billingAddress", billingAddress);
+    dispatch(SAVE_SHIPPING_ADDRESS(shippingAddress));
+    dispatch(SAVE_BILLING_ADDRESS(billingAddress));
   };
 
   return (
@@ -195,7 +202,7 @@ const CheckoutDetails = () => {
                 onChange={(e) => handleBilling(e)}
               />
               <button type="submit" className="--btn --btn-primary">
-                Proceed to Payment
+                Proceed to checkout
               </button>
             </Card>
           </div>
