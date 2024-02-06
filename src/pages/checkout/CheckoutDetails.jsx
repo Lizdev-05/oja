@@ -7,6 +7,8 @@ import {
   SAVE_BILLING_ADDRESS,
   SAVE_SHIPPING_ADDRESS,
 } from "../../redux/slice/checkoutSlice";
+import { useNavigate } from "react-router-dom";
+import CheckoutSummary from "../../components/checkoutSummary/CheckoutSummary";
 
 const initialAddressState = {
   name: "",
@@ -28,6 +30,7 @@ const CheckoutDetails = () => {
   });
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleShipping = (e) => {
     const { name, value } = e.target;
@@ -43,6 +46,7 @@ const CheckoutDetails = () => {
     e.preventDefault();
     dispatch(SAVE_SHIPPING_ADDRESS(shippingAddress));
     dispatch(SAVE_BILLING_ADDRESS(billingAddress));
+    navigate("/checkout");
   };
 
   return (
@@ -204,6 +208,11 @@ const CheckoutDetails = () => {
               <button type="submit" className="--btn --btn-primary">
                 Proceed to checkout
               </button>
+            </Card>
+          </div>
+          <div>
+            <Card cardClass={style.card}>
+              <CheckoutSummary />
             </Card>
           </div>
         </form>

@@ -90,8 +90,8 @@ const cartSlice = createSlice({
     CALCULATE_SUB_TOTAL: (state) => {
       const array = [];
       state.cartItems.map((item) => {
-        const { cartQuantity, price } = item;
-        const countItemAmount = cartQuantity * price;
+        const { price, cartQuantity } = item;
+        const countItemAmount = price * cartQuantity;
         return array.push(countItemAmount);
       });
       const totalAmount = array.reduce((a, b) => {

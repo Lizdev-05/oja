@@ -12,6 +12,7 @@ import AdminOnlyRoute, {
   AdminOnlyLink,
 } from "./components/adminOnlyRoute/AdminOnlyRoute";
 import CheckoutDetails from "./pages/checkout/CheckoutDetails";
+import Checkout from "./pages/checkout/Checkout";
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
           <Route path="/product-details/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout-details" element={<CheckoutDetails />} />
+          <Route path="/checkout" element={<Checkout />} />
         </Routes>
         <Footer />
       </BrowserRouter>
