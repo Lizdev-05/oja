@@ -8,6 +8,8 @@ import style from "./CheckoutForm.module.scss";
 import Card from "../card/Card";
 import CheckoutSummary from "../checkoutSummary/CheckoutSummary";
 import spinnerImg from "../../assets/spinner.jpg";
+import { toast } from "react-toastify";
+
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
@@ -29,9 +31,14 @@ const CheckoutForm = () => {
     }
   }, [stripe]);
 
+  const saveOrder = () => {
+    // Save the order to the database
+    console.log("Order saved to the database");
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setMessage(null);
     if (!stripe || !elements) {
       // Stripe.js hasn't yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
@@ -40,25 +47,30 @@ const CheckoutForm = () => {
 
     setIsLoading(true);
 
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000",
-      },
-    });
-
-    // This point will only be reached if there is an immediate error when
-    // confirming the payment. Otherwise, your customer will be redirected to
-    // your `return_url`. For some payment methods like iDEAL, your customer will
-    // be redirected to an intermediate site first to authorize the payment, then
-    // redirected to the `return_url`.
-    if (error.type === "card_error" || error.type === "validation_error") {
-      setMessage(error.message);
-    } else {
-      setMessage("An unexpected error occurred.");
-    }
-
+    const confirmPayment = await stripe
+      .confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: "http://localhost:3000/checkout-success",
+        },
+        return_url: "if_required",
+      })
+      .then((result) => {
+        if (result.error) {
+          toast.error(result.error.message);
+          setMessage(result.error.message);
+          return;
+        }
+        if (result.paymentIntent) {
+          if (result.paymentIntent.status === "succeeded") {
+            setIsLoading(false);
+            toast.success("Payment succeeded");
+            saveOrder();
+          }
+          setMessage("Payment succeeded");
+        }
+        return result;
+      });
     setIsLoading(false);
   };
 
