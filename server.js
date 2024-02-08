@@ -12,20 +12,46 @@ app.get("/", (req, res) => {
   res.send("Successfully connected to the server");
 });
 
+const array = [];
 const calculateOrderAmount = (items) => {
-  return 1400;
+  // Replace this constant with a calculation of the order's amount
+  // Calculate the order total on the server to prevent
+  // people from directly manipulating the amount on the client
+
+  items.map((item) => {
+    const { price, cartQuantity } = item;
+    const countItemAmount = price * cartQuantity;
+    return array.push(countItemAmount);
+  });
+  const totalAmount = array.reduce((a, b) => {
+    return a + b;
+  }, 0);
+  return totalAmount * 100;
 };
 
 app.post("/create-payment-intent", async (req, res) => {
-  const { items } = req.body;
+  const { items, shipping, description } = req.body;
 
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
     amount: calculateOrderAmount(items),
-    currency: "gbp",
+    currency: "usd",
     automatic_payment_methods: {
       enabled: true,
     },
+    description,
+    shipping: {
+      name: shipping.name,
+      address: {
+        line1: shipping.line1,
+        line12: shipping.line2,
+        city: shipping.city,
+        postal_code: shipping.postal_code,
+        country: shipping.country,
+      },
+      phone: shipping.phone,
+    },
+    // receipt_email: customerEmail,
   });
 
   res.send({
