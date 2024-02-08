@@ -1,12 +1,12 @@
 require("dotenv").config();
 const express = require("express");
-
 const cors = require("cors");
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+// const path = require("path");
 
 app.get("/", (req, res) => {
   res.send("Successfully connected to the server");
@@ -14,10 +14,6 @@ app.get("/", (req, res) => {
 
 const array = [];
 const calculateOrderAmount = (items) => {
-  // Replace this constant with a calculation of the order's amount
-  // Calculate the order total on the server to prevent
-  // people from directly manipulating the amount on the client
-
   items.map((item) => {
     const { price, cartQuantity } = item;
     const countItemAmount = price * cartQuantity;

@@ -19,18 +19,20 @@ import { toast } from "react-toastify";
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
 
 const Checkout = () => {
+  const [message, setMessage] = useState("iniitialising checkout...");
   const [clientSecret, setClientSecret] = useState("");
-  const [message, setMessage] = useState("iniitialising checkout");
 
   const cartItems = useSelector(selectCartItems);
   const cartTotalAmount = useSelector(selectCartTotalAmount);
   const customerEmail = useSelector(selectUserEmail);
+
   const billingAddress = useSelector(selectBillingAddress);
   const shippingAddress = useSelector(selectShippingAddress);
 
   const dispatch = useDispatch();
 
   const description = `Ọjà payment: email: ${customerEmail}, total: ${cartTotalAmount}`;
+
   useEffect(() => {
     dispatch(CALCULATE_SUB_TOTAL());
     dispatch(CALCULATE_TOTAL_QUANTITY());

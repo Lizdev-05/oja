@@ -17,6 +17,7 @@ const CheckoutForm = () => {
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  //I initiated a call to the backeend to fetch the client secret from the payment intent created on the server side and then send some payment details to the server
   useEffect(() => {
     if (!stripe) {
       return;
@@ -80,43 +81,45 @@ const CheckoutForm = () => {
 
   return (
     <section>
-      <div className={`container ${style.checkout}`}></div>\<h2>Checkout</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <Card cardClass={Card}>
-            <CheckoutSummary />
-          </Card>
-        </div>
-        <div>
-          <Card cardClass={`${style.card} ${style.pay}`}>
-            <h3>Stripe Checkout</h3>
-            <PaymentElement
-              id={style["payment-element"]}
-              options={paymentElementOptions}
-            />
-            <button
-              disabled={isLoading || !stripe || !elements}
-              id="submit"
-              className={style.button}
-            >
-              <span id="button-text">
-                {isLoading ? (
-                  //   <div className="spinner" id="spinner"></div>
-                  <img
-                    src={spinnerImg}
-                    alt="loading..."
-                    style={{ width: "20px" }}
-                  />
-                ) : (
-                  "Pay now"
-                )}
-              </span>
-            </button>
-            {/* Show any error or success messages */}
-            {message && <div id={style["payment-element"]}>{message}</div>}
-          </Card>
-        </div>
-      </form>
+      <div className={`container ${style.checkout}`}>
+        <h2>Checkout</h2>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <Card cardClass={style.Card}>
+              <CheckoutSummary />
+            </Card>
+          </div>
+          <div>
+            <Card cardClass={`${style.card} ${style.pay}`}>
+              <h3>Stripe Checkout</h3>
+              <PaymentElement
+                id={style["payment-element"]}
+                options={paymentElementOptions}
+              />
+              <button
+                disabled={isLoading || !stripe || !elements}
+                id="submit"
+                className={style.button}
+              >
+                <span id="button-text">
+                  {isLoading ? (
+                    //   <div className="spinner" id="spinner"></div>
+                    <img
+                      src={spinnerImg}
+                      alt="loading..."
+                      style={{ width: "20px" }}
+                    />
+                  ) : (
+                    "Pay now"
+                  )}
+                </span>
+              </button>
+              {/* Show any error or success messages */}
+              {message && <div id={style["payment-element"]}>{message}</div>}
+            </Card>
+          </div>
+        </form>
+      </div>
     </section>
   );
 };
