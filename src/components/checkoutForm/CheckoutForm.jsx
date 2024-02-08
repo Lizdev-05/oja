@@ -9,6 +9,17 @@ import Card from "../card/Card";
 import CheckoutSummary from "../checkoutSummary/CheckoutSummary";
 import spinnerImg from "../../assets/spinner.jpg";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUserEmail, selectUserID } from "../../redux/slice/authSlice";
+import {
+  CLEAR_CART,
+  selectCartItems,
+  selectCartTotalAmount,
+} from "../../redux/slice/cartSlice";
+import { selectShippingAddress } from "../../redux/slice/checkoutSlice";
+import { Timestamp, addDoc, collection } from "firebase/firestore";
+import { db } from "../../firebase/config";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutForm = () => {
   const stripe = useStripe();
@@ -16,6 +27,14 @@ const CheckoutForm = () => {
 
   const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const userID = useSelector(selectUserID);
+  const cartItems = useSelector(selectCartItems);
+  const customerEmail = useSelector(selectUserEmail);
+  const shippingAddress = useSelector(selectShippingAddress);
+  const cartTotalAmount = useSelector(selectCartTotalAmount);
 
   //I initiated a call to the backeend to fetch the client secret from the payment intent created on the server side and then send some payment details to the server
   useEffect(() => {
@@ -34,6 +53,30 @@ const CheckoutForm = () => {
 
   const saveOrder = () => {
     // Save the order to the database
+    const today = new Date();
+    const date = `${today.getDate()}-${today.getMonth()}-${today.getFullYear()}`;
+    const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
+    const orderConfig = {
+      userID,
+      customerEmail,
+      orderDate: date,
+      orderTime: time,
+      orderAmount: cartTotalAmount,
+      shippingAddress,
+      orderStatus: "Order placed...",
+      cartItems,
+      shippingAddress,
+      createdAt: Timestamp.now().toDate(),
+    };
+
+    try {
+      addDoc(collection(db, "orders"), orderConfig);
+      dispatch(CLEAR_CART());
+      toast.success("Order saved to the database");
+      navigate("/checkout-success");
+    } catch (error) {
+      toast.error(error.message);
+    }
     console.log("Order saved to the database");
   };
 
@@ -54,7 +97,7 @@ const CheckoutForm = () => {
         confirmParams: {
           return_url: "http://localhost:3000/checkout-success",
         },
-        return_url: "if_required",
+        redirect: "if_required",
       })
       .then((result) => {
         if (result.error) {

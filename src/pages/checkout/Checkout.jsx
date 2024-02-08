@@ -31,7 +31,8 @@ const Checkout = () => {
 
   const dispatch = useDispatch();
 
-  const description = `Ọjà payment: email: ${customerEmail}, total: ${cartTotalAmount}`;
+  const description = `Ọjà payment: email: ${customerEmail}, Amount: ${cartTotalAmount}`;
+  // const description = `eShop payment: email: ${customerEmail}, Amount: ${totalAmount}`;
 
   useEffect(() => {
     dispatch(CALCULATE_SUB_TOTAL());
