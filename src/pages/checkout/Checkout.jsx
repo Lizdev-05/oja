@@ -13,6 +13,7 @@ import {
   selectBillingAddress,
   selectShippingAddress,
 } from "../../redux/slice/checkoutSlice";
+import CheckoutForm from "../../components/checkoutForm/CheckoutForm";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PK);
 
@@ -73,7 +74,18 @@ const Checkout = () => {
     appearance,
   };
 
-  return <div>Checkout</div>;
+  return (
+    <>
+      <section>
+        <div className="container">{!clientSecret && <h3>{message}</h3>}</div>
+      </section>
+      {clientSecret && (
+        <Elements options={options} stripe={stripePromise}>
+          <CheckoutForm />
+        </Elements>
+      )}
+    </>
+  );
 };
 
 export default Checkout;
