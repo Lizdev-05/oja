@@ -12,7 +12,6 @@ import Card from "../card/Card";
 const CheckoutSummary = () => {
   const cartItems = useSelector(selectCartItems);
   const cartTotalAmount = useSelector(selectCartTotalAmount);
-  console.log(cartTotalAmount);
   const cartTotalQuantity = useSelector(selectCartTotalQuantity);
 
   return (

@@ -52,7 +52,7 @@ const CheckoutForm = () => {
   }, [stripe]);
 
   const saveOrder = () => {
-    // Save the order to the database
+    // Save the order to the firebase database
     const today = new Date();
     const date = `${today.getDate()}-${today.getMonth()}-${today.getFullYear()}`;
     const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
