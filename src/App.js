@@ -13,7 +13,9 @@ import AdminOnlyRoute, {
 } from "./components/adminOnlyRoute/AdminOnlyRoute";
 import CheckoutDetails from "./pages/checkout/CheckoutDetails";
 import Checkout from "./pages/checkout/Checkout";
-import CheckoutSuccess from "./components/checkoutSuccess/CheckoutSuccess";
+// import CheckoutSuccess from "./components/checkoutSuccess/CheckoutSuccess";
+import CheckoutSuccess from "./pages/checkout/CheckoutSuccess";
+import OrderHistory from "./pages/orderHistory/OrderHistory";
 
 const App = () => {
   return (
@@ -43,6 +45,7 @@ const App = () => {
           <Route path="/checkout-details" element={<CheckoutDetails />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/checkout-success" element={<CheckoutSuccess />} />
+          <Route path="/order-history" element={<OrderHistory />} />
         </Routes>
         <Footer />
       </BrowserRouter>
