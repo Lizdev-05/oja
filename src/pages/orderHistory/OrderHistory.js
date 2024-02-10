@@ -5,10 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { STORE_ORDERS, selectOrderHistory } from "../../redux/slice/orderSlice";
 import { selectUserID } from "../../redux/slice/authSlice";
 import Loader from "../../components/loader/Loader";
+import { useNavigate } from "react-router-dom";
 
 const OrderHistory = () => {
   const { data, isLoading } = useFetchCollection("orders");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const orders = useSelector(selectOrderHistory);
   const userID = useSelector(selectUserID);
 
@@ -17,8 +19,10 @@ const OrderHistory = () => {
   }, [data, dispatch]);
 
   const handleClick = (id) => () => {
-    console.log(id);
+    navigate(`/order-details/${id}`);
   };
+
+  const filteredOrders = orders.filter((order) => order.userID === userID);
 
   return (
     <section>
@@ -31,7 +35,7 @@ const OrderHistory = () => {
         <>
           {isLoading && <Loader />}
           <div className={style.table}>
-            {orders.length === 0 ? (
+            {filteredOrders.length === 0 ? (
               <p>No order found</p>
             ) : (
               <table>
@@ -45,7 +49,7 @@ const OrderHistory = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {orders.map((order, index) => {
+                  {filteredOrders.map((order, index) => {
                     const {
                       id,
                       orderDate,

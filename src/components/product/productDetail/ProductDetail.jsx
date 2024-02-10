@@ -13,6 +13,7 @@ import {
   DECREASE_CART,
   selectCartItems,
 } from "../../../redux/slice/cartSlice";
+import useFetchDocument from "../../../customHooks/useFetchDocument";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -21,6 +22,9 @@ const ProductDetail = () => {
   // I used the useSelector hook to get the cart items from the redux store
   const cartItems = useSelector(selectCartItems);
 
+  // I used the useFetchDocument custom hook to get a product from the firestore database
+  const { document } = useFetchDocument("products", id);
+
   // I used the find method to check if the product exists in the cart
   const cart = cartItems.find((cart) => cart.id === id);
 
@@ -28,27 +32,28 @@ const ProductDetail = () => {
     return cart.id === id;
   });
 
+  //***************** I moved this logic to the  custsomss hooks specifically, useFetchDocument ************************ */
   // I Usesd https://firebase.google.com/docs/firestore/query-data/get-data#get_a_document to get a product from the firestore database
-  const getProduct = async () => {
-    const docRef = doc(db, "products", id);
-    const docSnap = await getDoc(docRef);
+  // const getProduct = async () => {
+  //   const docRef = doc(db, "products", id);
+  //   const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-      // console.log("Document data:", docSnap.data());
-      const obj = {
-        id: docSnap.id,
-        ...docSnap.data(),
-      };
-      // setProduct(docSnap.data());
-      setProduct(obj);
-    } else {
-      toast.error("No such product!");
-    }
-  };
+  //   if (docSnap.exists()) {
+  //     // console.log("Document data:", docSnap.data());
+  //     const obj = {
+  //       id: docSnap.id,
+  //       ...docSnap.data(),
+  //     };
+  //     // setProduct(docSnap.data());
+  //     setProduct(obj);
+  //   } else {
+  //     toast.error("No such product!");
+  //   }
+  // };
 
   useEffect(() => {
-    getProduct();
-  }, []);
+    setProduct(document);
+  }, [document]);
 
   const addToCart = (product) => {
     dispatch(ADD_TO_CART(product));
