@@ -14,8 +14,6 @@ const OrderDetails = () => {
     setOrder(document);
   }, [document]);
 
-  console.log(order);
-
   return (
     <section>
       <div className={`container ${style.table}`}>
