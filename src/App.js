@@ -1,13 +1,23 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // Pages
-import { Home, Contact, Cart, Admin, Login, Register, Reset } from "./pages";
+import { Home, Contact, Cart, Login, Register, Reset, Admin } from "./pages";
 
 // component
-import { Header, Footer } from "./components";
+import { Header, Footer, ProductDetail } from "./components";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AdminOnlyRoute, {
+  AdminOnlyLink,
+} from "./components/adminOnlyRoute/AdminOnlyRoute";
+import CheckoutDetails from "./pages/checkout/CheckoutDetails";
+import Checkout from "./pages/checkout/Checkout";
+// import CheckoutSuccess from "./components/checkoutSuccess/CheckoutSuccess";
+import CheckoutSuccess from "./pages/checkout/CheckoutSuccess";
+import OrderHistory from "./pages/orderHistory/OrderHistory";
+import OrderDetails from "./pages/orderDetails/OrderDetails";
+import ReviewProduct from "./components/reviewProduct/ReviewProduct";
 
 const App = () => {
   return (
@@ -19,10 +29,27 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/admin" element={<Admin />} />
+
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/reset" element={<Reset />} />
+
+          <Route
+            path="/admin/*"
+            element={
+              <AdminOnlyRoute>
+                <Admin />{" "}
+              </AdminOnlyRoute>
+            }
+          />
+          <Route path="/product-details/:id" element={<ProductDetail />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout-details" element={<CheckoutDetails />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/checkout-success" element={<CheckoutSuccess />} />
+          <Route path="/order-history" element={<OrderHistory />} />
+          <Route path="/order-details/:id" element={<OrderDetails />} />
+          <Route path="/review-product/:id" element={<ReviewProduct />} />
         </Routes>
         <Footer />
       </BrowserRouter>

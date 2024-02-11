@@ -6,12 +6,19 @@ import { HiOutlineMenuAlt3 } from "react-icons/hi";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../../firebase/config";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   REMOVE_ACTIVE_USER,
   SET_ACTIVE_USER,
 } from "../../redux/slice/authSlice";
 import ShowOnLogIn, { ShowOnLogOut } from "../hideLinks/HiddenLinks";
+import AdminOnlyRoute, {
+  AdminOnlyLink,
+} from "../adminOnlyRoute/AdminOnlyRoute";
+import {
+  CALCULATE_TOTAL_QUANTITY,
+  selectCartTotalQuantity,
+} from "../../redux/slice/cartSlice";
 
 const logo = (
   <div className={style.logo}>
@@ -24,20 +31,17 @@ const logo = (
 );
 
 const activeLink = ({ isActive }) => (isActive ? `${style.active}` : "");
-const cart = (
-  <span className={style.cart}>
-    <NavLink to="/cart" className={activeLink}>
-      Cart
-      <FaShoppingCart size={20} />
-      <p>0</p>
-    </NavLink>
-  </span>
-);
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [displayUsername, setDisplayUsername] = useState("");
+  const [scrollPage, setScrollPage] = useState(false);
   const dispatch = useDispatch();
+  const cartTotalQuantity = useSelector(selectCartTotalQuantity);
+
+  useEffect(() => {
+    dispatch(CALCULATE_TOTAL_QUANTITY());
+  }, [dispatch]);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -66,6 +70,7 @@ const Header = () => {
         }
 
         // dispatch user to redux store
+
         dispatch(
           SET_ACTIVE_USER({
             id: user.uid,
@@ -80,6 +85,16 @@ const Header = () => {
     });
   }, [dispatch, displayUsername]);
 
+  // scroll event
+  const fixNavBar = () => {
+    if (window.scrollY > 50) {
+      setScrollPage(true);
+    } else {
+      setScrollPage(false);
+    }
+  };
+  window.addEventListener("scroll", fixNavBar);
+
   const logOut = () => {
     signOut(auth)
       .then(() => {
@@ -89,8 +104,19 @@ const Header = () => {
         toast.error(error.message);
       });
   };
+
+  const cart = (
+    <span className={style.cart}>
+      <NavLink to="/cart" className={activeLink}>
+        Cart
+        <FaShoppingCart size={20} />
+        <p>{cartTotalQuantity}</p>
+      </NavLink>
+    </span>
+  );
+
   return (
-    <header>
+    <header className={scrollPage ? `${style.fixed}` : null}>
       <div className={style.header}>
         {logo}
         <nav
@@ -109,6 +135,13 @@ const Header = () => {
             <li className={style["logo-mobile"]}>
               {logo}
               <FaTimes size={22} onClick={hideMenu} />
+            </li>
+            <li>
+              <AdminOnlyLink>
+                <Link to="/admin/home">
+                  <button className="--btn --btn-secondary">Admin</button>
+                </Link>
+              </AdminOnlyLink>
             </li>
             <li>
               <NavLink to="/" className={activeLink}>
@@ -130,6 +163,22 @@ const Header = () => {
                 </NavLink>
               </ShowOnLogOut>
               <ShowOnLogIn>
+                <a href="#home" style={{ color: "#ff4500" }}>
+                  <FaUserCircle size={16} />
+                  Hi, {displayUsername}
+                </a>
+              </ShowOnLogIn>
+              <ShowOnLogIn>
+                <NavLink to="/order-history" className={activeLink}>
+                  My Orders
+                </NavLink>
+              </ShowOnLogIn>
+              <ShowOnLogIn>
+                <NavLink to="/" onClick={logOut}>
+                  Logout
+                </NavLink>
+              </ShowOnLogIn>
+              {/* <ShowOnLogIn>
                 <a href="#Home" style={{ color: "#ff4500" }}>
                   <FaUserCircle size={16} />
                   Hello, {displayUsername}
@@ -141,7 +190,7 @@ const Header = () => {
                 <NavLink to="/" onClick={logOut}>
                   Logout
                 </NavLink>
-              </ShowOnLogIn>
+              </ShowOnLogIn> */}
             </span>
 
             {cart}

@@ -37,7 +37,7 @@ const Register = () => {
         setIsLoading(false);
         toast.success("User registered successfully");
         // redirect the user to the login page
-        navigate("/login");
+        navigate("/home");
         // ...
       })
       .catch((error) => {
@@ -57,7 +57,7 @@ const Register = () => {
       <section className={`container ${style.auth}`}>
         <Card>
           <div className={style.form}>
-            <h2>Login</h2>
+            <h2>Sign up</h2>
             <form onSubmit={registerUser}>
               <input
                 type="email"
