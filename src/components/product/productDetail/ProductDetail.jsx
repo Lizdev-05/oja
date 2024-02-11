@@ -14,6 +14,9 @@ import {
   selectCartItems,
 } from "../../../redux/slice/cartSlice";
 import useFetchDocument from "../../../customHooks/useFetchDocument";
+import useFetchCollection from "../../../customHooks/useFetchCollection";
+import Card from "../../card/Card";
+import StarsRating from "react-star-rate";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -31,6 +34,10 @@ const ProductDetail = () => {
   const isCartAdded = cartItems.findIndex((cart) => {
     return cart.id === id;
   });
+
+  // I used the useFetchCollection custom hook to get the reviews from the firestore database
+  const { data } = useFetchCollection("reviews");
+  const filteredReviews = data.filter((review) => review.productID === id);
 
   //***************** I moved this logic to the  custsomss hooks specifically, useFetchDocument ************************ */
   // I Usesd https://firebase.google.com/docs/firestore/query-data/get-data#get_a_document to get a product from the firestore database
@@ -116,29 +123,32 @@ const ProductDetail = () => {
                   ADD TO CART
                 </button>
               </div>
-
-              <div className={styles.reviews}>
-                <h3>Reviews</h3>
-                <p>There are no reviews yet.</p>
-                {/* <form>
-                <div className={styles.formGroup}>
-                  <label htmlFor="name">Name</label>
-                  <input type="text" id="name" />
-                </div>
-                <div className={styles.formGroup}>
-                  <label htmlFor="email">Email</label>
-                  <input type="email" id="email" />
-                </div>
-                <div className={styles.formGroup}>
-                  <label htmlFor="review">Review</label>
-                  <textarea id="review"></textarea>
-                </div>
-                <button className="--btn --btn-primary">Submit</button>
-              </form> */}
-              </div>
             </div>
           </>
         )}
+        <Card cardClass={styles.card}>
+          <h3>Product Review</h3>
+          <div>
+            {filteredReviews.length === 0 ? (
+              <p>No review for this product yet</p>
+            ) : (
+              <>
+                {filteredReviews.map((item, index) => {
+                  const { rate, review, reviewDate, userName } = item;
+                  return (
+                    <div className="style.review">
+                      <StarsRating value={rate} />
+                      <p>{review}</p>
+                      <span>{reviewDate}</span>
+                      <br />
+                      <span>By: {userName}</span>
+                    </div>
+                  );
+                })}
+              </>
+            )}
+          </div>
+        </Card>
       </div>
     </section>
   );
