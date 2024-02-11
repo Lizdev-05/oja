@@ -136,7 +136,7 @@ const ProductDetail = () => {
                 {filteredReviews.map((item, index) => {
                   const { rate, review, reviewDate, userName } = item;
                   return (
-                    <div className="style.review">
+                    <div className="style.review" key={index}>
                       <StarsRating value={rate} />
                       <p>{review}</p>
                       <span>{reviewDate}</span>
