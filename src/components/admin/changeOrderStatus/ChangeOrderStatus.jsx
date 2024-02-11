@@ -3,14 +3,42 @@ import style from "./StateOrderStatus.module.scss";
 
 import Loader from "../../loader/Loader";
 import Card from "../../card/Card";
+import { Timestamp, doc, setDoc } from "firebase/firestore";
+import { db } from "../../../firebase/config";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
-const ChangeOrderStatus = () => {
+const ChangeOrderStatus = ({ order, id }) => {
   const [status, setStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const editOrder = (e) => {
+  const navigate = useNavigate();
+  const editOrder = (e, id) => {
     e.preventDefault();
     setIsLoading(true);
+
+    const orderConfig = {
+      userID: order.userID,
+      customerEmail: order.customerEmail,
+      orderDate: order.orderDate,
+      orderTime: order.orderTime,
+      orderAmount: order.orderAmount,
+      shippingAddress: order.shippingAddress,
+      orderStatus: status,
+      cartItems: order.cartItems,
+      createdAt: order.createdAt,
+      editedAt: Timestamp.now().toDate(),
+    };
+
+    try {
+      setDoc(doc(db, "orders", id), orderConfig);
+      setIsLoading(false);
+      toast.success("Order status changed successfully");
+      navigate("/admin/orders");
+    } catch (error) {
+      setIsLoading(false);
+      toast.error(error.message);
+    }
   };
 
   return (
@@ -20,7 +48,7 @@ const ChangeOrderStatus = () => {
         <Card cardClass={style.card}>
           <h3>Update Status</h3>
 
-          <form onSubmit={editOrder}>
+          <form onSubmit={(e) => editOrder(e, id)}>
             <span>
               <select
                 value={status}

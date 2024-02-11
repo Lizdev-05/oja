@@ -23,6 +23,7 @@ const Admin = () => {
 
           <Route path="/view-orders" element={<Orders />} />
           <Route path="/order-details/:id" element={<OrderDetails />} />
+          <Route path="/orders" element={<Orders />} />
         </Routes>
       </div>
     </div>
