@@ -37,7 +37,7 @@ const Register = () => {
         setIsLoading(false);
         toast.success("User registered successfully");
         // redirect the user to the login page
-        navigate("/home");
+        navigate("/");
         // ...
       })
       .catch((error) => {
