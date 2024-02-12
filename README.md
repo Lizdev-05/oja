@@ -127,7 +127,7 @@ If you like this project consider giving it a star ⭐️.
 
 ## 🙏 Acknowledgments <a name="acknowledgements"></a>
 
-I would like to thank Microverse for giving me the opportunity to work on this project.
+- Myself (Oyinlade Ojesanmi) for pushing myself to work on this project
 
 - MEST
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
