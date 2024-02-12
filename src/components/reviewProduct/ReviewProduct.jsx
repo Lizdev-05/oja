@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { selectProducts } from "../../redux/slice/productSlice";
 
 import { selectUserID, selectUserName } from "../../redux/slice/authSlice";
@@ -26,6 +26,8 @@ const ReviewProduct = () => {
 
   const userID = useSelector(selectUserID);
   const userName = useSelector(selectUserName);
+
+  const navigate = useNavigate();
 
   // const product = products.find((item) => item.id === id);
 
@@ -54,7 +56,7 @@ const ReviewProduct = () => {
       toast.success("Review submitted successfully!");
       setRate(0);
       setReview("");
-      // navigate("/checkout-success");
+      navigate("/");
     } catch (error) {
       toast.error(error.message);
     }
