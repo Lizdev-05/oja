@@ -6,11 +6,9 @@ import { Home, Contact, Cart, Login, Register, Reset, Admin } from "./pages";
 // component
 import { Header, Footer, ProductDetail } from "./components";
 
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AdminOnlyRoute, {
-  AdminOnlyLink,
-} from "./components/adminOnlyRoute/AdminOnlyRoute";
+import AdminOnlyRoute from "./components/adminOnlyRoute/AdminOnlyRoute";
 import CheckoutDetails from "./pages/checkout/CheckoutDetails";
 import Checkout from "./pages/checkout/Checkout";
 // import CheckoutSuccess from "./components/checkoutSuccess/CheckoutSuccess";
@@ -18,6 +16,7 @@ import CheckoutSuccess from "./pages/checkout/CheckoutSuccess";
 import OrderHistory from "./pages/orderHistory/OrderHistory";
 import OrderDetails from "./pages/orderDetails/OrderDetails";
 import ReviewProduct from "./components/reviewProduct/ReviewProduct";
+import NotFound from "./pages/notFound/NotFound";
 
 const App = () => {
   return (
@@ -50,6 +49,7 @@ const App = () => {
           <Route path="/order-history" element={<OrderHistory />} />
           <Route path="/order-details/:id" element={<OrderDetails />} />
           <Route path="/review-product/:id" element={<ReviewProduct />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
       </BrowserRouter>

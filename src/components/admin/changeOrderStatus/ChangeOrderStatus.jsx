@@ -57,11 +57,10 @@ const ChangeOrderStatus = ({ order, id }) => {
                 <option value="" disabled>
                   -- Choose One --
                 </option>
-                <option value="Order Placed">Order Placed...</option>
-                <option value="Processing">Processing...</option>
-                <option value="Shipped">Shipped...</option>
-                <option value="delivered">Delivered</option>
-                <option value="cancelled">Cancelled</option>
+                <option value="Order Placed">Order Placed</option>
+                <option value="Processing...">Processing...</option>
+                <option value="Shipped">Shipped</option>
+                <option value="Delivered">Delivered</option>
               </select>
             </span>
             <span>
