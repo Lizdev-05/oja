@@ -21,14 +21,19 @@ import {
   selectProducts,
 } from "../../../redux/slice/productSlice";
 import useFetchCollection from "../../../customHooks/useFetchCollection";
+import {
+  FILTER_BY_SEARCH,
+  selectFilteredProducts,
+} from "../../../redux/slice/filterSlice";
+import Search from "../../search/Search";
 
 const ViewProducts = () => {
   const { data, isLoading } = useFetchCollection("products");
+  const [search, setSearch] = useState("");
 
-  // const [products, setProducts] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const products = useSelector(selectProducts);
+  const filteredProducts = useSelector(selectFilteredProducts);
 
   useEffect(() => {
     dispatch(
@@ -37,6 +42,10 @@ const ViewProducts = () => {
       })
     );
   }, [dispatch, data]);
+
+  useEffect(() => {
+    dispatch(FILTER_BY_SEARCH({ products, search }));
+  }, [dispatch, products, search]);
 
   // ###################### INITIAL CODE BEFORE USEFETHCOLLECTION HOOK######################
   // useEffect(() => {
@@ -113,7 +122,13 @@ const ViewProducts = () => {
       {isLoading && <Loader />}
       <div className={style.table}>
         <h2>All Products</h2>
-        {products.length === 0 ? (
+        <div className={style.search}>
+          <p>
+            {filteredProducts.length} <b>products found</b>
+          </p>
+          <Search value={search} onChange={(e) => setSearch(e.target.value)} />
+        </div>
+        {filteredProducts.length === 0 ? (
           <p>No Product Found...</p>
         ) : (
           <table>
@@ -128,7 +143,7 @@ const ViewProducts = () => {
               </tr>
             </thead>
             <tbody>
-              {products.map((product, index) => {
+              {filteredProducts.map((product, index) => {
                 const { id, name, imageURL, category, brand, price } = product;
                 return (
                   <tr key={id}>
