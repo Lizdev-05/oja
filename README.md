@@ -34,10 +34,10 @@
   <ul>
     <li><a href="https://reactjs.org/">React.js</a></li>
     <li><a href="https://redux.js.org/">Redux</a></li>
-    <li><a href="https://firebase.google.com/"></a>Firebase</li>
-    <li><a href="https://stripe.com/docs"></a>Stripe</li>
-    <li><a href="https://www.emailjs.com//"></a>Email Js</li>
-    <li><a href="https://react-chartjs-2.js.org/"></a>Chat2</li>
+    <li><a href="https://firebase.google.com/">Firebase</a></li>
+    <li><a href="https://stripe.com/docs">Stripe</a></li>
+    <li><a href="https://www.emailjs.com//">Email Js</a></li>
+    <li><a href="https://react-chartjs-2.js.org/">Chat2</a></li>
     <li><a href="#">CSS</a></li>
     <li><a href="https://aos.com/">Toastify</a></li>
     <li><a href="https://remixicon.com/">React Icon</a></li>
