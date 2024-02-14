@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import style from "./ViewProduct.module.scss";
 import { toast } from "react-toastify";

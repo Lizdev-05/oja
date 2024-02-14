@@ -38,6 +38,7 @@ const Login = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
+        // eslint-disable-next-line no-unused-vars
         const user = userCredential.user;
 
         setIsLoading(false);
@@ -54,6 +55,7 @@ const Login = () => {
   const logInWithGoogle = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
+        // eslint-disable-next-line no-unused-vars
         const user = result.user;
         toast.success("Login successful...");
         redirectUser();
