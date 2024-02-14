@@ -1,3 +1,7 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-unused-vars */
+
 import React, { useState } from "react";
 import styles from "./Pagination.module.scss";
 

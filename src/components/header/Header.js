@@ -12,9 +12,7 @@ import {
   SET_ACTIVE_USER,
 } from "../../redux/slice/authSlice";
 import ShowOnLogIn, { ShowOnLogOut } from "../hideLinks/HiddenLinks";
-import AdminOnlyRoute, {
-  AdminOnlyLink,
-} from "../adminOnlyRoute/AdminOnlyRoute";
+import { AdminOnlyLink } from "../adminOnlyRoute/AdminOnlyRoute";
 import {
   CALCULATE_TOTAL_QUANTITY,
   selectCartTotalQuantity,

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { doc, getDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";

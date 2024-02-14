@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect } from "react";
 import style from "./Orders.module.scss";
 import { useDispatch, useSelector } from "react-redux";

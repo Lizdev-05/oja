@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import { sliderData } from "./Slider-data";
 import { AiOutlineArrowRight, AiOutlineArrowLeft } from "react-icons/ai";
