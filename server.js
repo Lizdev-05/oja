@@ -25,7 +25,7 @@ const calculateOrderAmount = (items) => {
   return totalAmount * 100;
 };
 
-app.post("/create-payment-intent", async (req, res) => {
+app.post("https://oja.onrender.com/create-payment-intent", async (req, res) => {
   const { items, shipping, description } = req.body;
   console.log(req.body.description);
   console.log(description);
