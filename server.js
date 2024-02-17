@@ -42,12 +42,12 @@ app.post("/create-payment-intent", async (req, res) => {
       name: shipping.name,
       address: {
         line1: shipping.line1,
-        line1: shipping.line2,
+        line2: shipping.line2,
         city: shipping.city,
         postal_code: shipping.postal_code,
         country: shipping.country,
       },
-      name: shipping.name,
+
       phone: shipping.phone,
     },
     // receipt_email: customerEmail,
