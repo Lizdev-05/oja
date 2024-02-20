@@ -98,7 +98,7 @@ const CheckoutForm = () => {
       .confirmPayment({
         elements,
         confirmParams: {
-          return_url: "http://localhost:3000/checkout-success",
+          return_url: "https://oja.onrender.com/checkout-success",
         },
         redirect: "if_required",
       })

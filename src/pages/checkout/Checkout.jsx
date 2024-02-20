@@ -68,6 +68,7 @@ const Checkout = () => {
         setMessage(
           "Failed to initialise checkout page. Please try again later."
         );
+        console.log("STRIPE ERROR", error);
         toast.error("Something went wrong. Please retry!");
       });
   }, []);
