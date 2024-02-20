@@ -43,7 +43,7 @@ const Checkout = () => {
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads. This logic is from the Stripe documentation: https://stripe.com/docs/payments/quickstart?lang=node&client=react
     // fetch("http://localhost:4242/create-payment-intent", {
-    fetch("https://oja.onrender.com/create-payment-intent", {
+    fetch("https://oja-api-db1r.onrender.com/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
