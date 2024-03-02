@@ -2,6 +2,8 @@
 
 - [📗 Table of Contents](#-table-of-contents)
 - [📖 Ọjà ](#-Ọjà)
+<img width="1470" alt="image" src="https://github.com/Lizdev-05/oja/assets/73854999/eb064464-5363-40b4-a9ec-0daad825d717">
+
 
   - [🛠 Built With ](#-built-with-)
     - [Tech Stack ](#tech-stack-)
